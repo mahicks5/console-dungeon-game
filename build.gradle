@@ -6,7 +6,7 @@
 apply plugin: 'application'
 
 
-mainClassName = 'Main'
+mainClassName = 'Game'
 
 run {
     standardInput = System.in
