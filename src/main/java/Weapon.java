@@ -1,41 +1,19 @@
-/**
- * Weapon.java interface that describes use of a weapon (attack)
- * The goal of this class is to create a weapon interface.
- * This implementation is based off the Factory pattern design pattern.
- * */
+public abstract class Weapon implements WeaponTemplate {
+    private String name;
 
-public interface Weapon {
-    /**
-     * use weapon
-     * @return damage to be dealt */
-    double attack();
-    /**
-     * set weapon name
-     * @param name name of the weapon */
-    void setName (String name);
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    /**
-     * set the additional attack
-     * @param additionalAttack the additional attack damage a weapon does */
-    void setAdditionalAttack (double additionalAttack);
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * get weapon name
-     * @return name of the weapon */
-    String getName();
+    public abstract void setAdditionalAttack(double additionalAttack);
 
-    /**
-     * get the base attack
-     * @return base attack of the weapon */
-    double getBaseAttack();
+    public abstract double getBaseAttack();
 
-    /**
-     * get the additional attack
-     * @return additional attack of the weapon */
-    double getAdditionalAttack();
+    public abstract double getAdditionalAttack();
 
-    /**
-     * get the full attack
-     * @return full attack of the weapon */
-    double getAttack();
+    public abstract double getAttack();
 }

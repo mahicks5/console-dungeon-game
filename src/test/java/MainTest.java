@@ -13,16 +13,16 @@ public class MainTest {
 
     @Test
     public void testWeaponFactoryWeaponTypes() {
-        Weapon swordTest = weaponFactory.makeWeapon("Sword");
+        WeaponTemplate swordTest = weaponFactory.makeWeapon("Sword");
         swordTest.setName("Apothican Sword");
         swordTest.setAdditionalAttack(10);
 
-        Weapon staffTest = weaponFactory.makeWeapon("Staff");
+        WeaponTemplate staffTest = weaponFactory.makeWeapon("Staff");
         staffTest.setName("Staff of Ice");
         staffTest.setAdditionalAttack(10);
 
 
-        Weapon bowTest = weaponFactory.makeWeapon("Bow");
+        WeaponTemplate bowTest = weaponFactory.makeWeapon("Bow");
         bowTest.setName("Wrath of the Ancients");
         bowTest.setAdditionalAttack(10);
 
@@ -34,8 +34,8 @@ public class MainTest {
         assertEquals(staffTest.getName(), "Staff of Ice");
         assertEquals(bowTest.getName(), "Wrath of the Ancients");
 
-        assertEquals(swordTest.getAttack(), 13.0, 0.0);
-        assertEquals(staffTest.getAttack(), 14.0, 0.0);
-        assertEquals(bowTest.getAttack(), 12.0, 0.0);
+        assertEquals(swordTest.getAttack(), 20.0, 0.0);
+        assertEquals(staffTest.getAttack(), 21.0, 0.0);
+        assertEquals(bowTest.getAttack(), 19.0, 0.0);
     }
 }

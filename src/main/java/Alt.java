@@ -2,16 +2,16 @@
  * Sword.java implementation of a Sword using the WeaponTemplate interface
  * */
 
-public class Sword extends Weapon {
+public class Alt extends Weapon {
     private String name;
-    private double additionalAttack;
+    private double additionalAttack = WeaponConstants.ALT_ADDITIONAL_ATTACK;
 
     public void setAdditionalAttack(double additionalAttack) {
         this.additionalAttack = additionalAttack;
     }
 
     public double getBaseAttack() {
-        return WeaponConstants.SWORD_BASE_ATTACK;
+        return WeaponConstants.ALT_BASE_ATTACK;
     }
 
     public double getAdditionalAttack() {
@@ -19,6 +19,6 @@ public class Sword extends Weapon {
     }
 
     public double getAttack() {
-        return WeaponConstants.SWORD_BASE_ATTACK + additionalAttack;
+        return WeaponConstants.ALT_BASE_ATTACK + additionalAttack;
     }
 }

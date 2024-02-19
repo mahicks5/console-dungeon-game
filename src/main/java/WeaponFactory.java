@@ -7,7 +7,7 @@ import java.util.Random;
 public class WeaponFactory {
     /**
      * */
-    public Weapon makeWeapon(String weaponType) {
+    public WeaponTemplate makeWeapon(String weaponType) {
         if (weaponType.isEmpty()) {
             return null;
         }
@@ -27,7 +27,7 @@ public class WeaponFactory {
         return null;
     }
 
-    public Weapon makeRandomWeapon() {
+    public WeaponTemplate makeRandomWeapon() {
         Random random = new Random();
         int randomNumber = random.nextInt(4) + 1;
 
