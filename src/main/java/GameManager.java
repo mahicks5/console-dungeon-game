@@ -13,12 +13,12 @@ public class GameManager implements GameMediator {
 
     @Override
     public void alert(Object sender, String event) {
-//        System.out.println(sender.getClass().getName() + " with event " + event);
-
+        // notifies game manager when the player is initialized
         if (sender.getClass().equals(Character.class) && event.equals("player init")) {
             player_init = true;
         }
 
+        // notifies game manager to initialize player health
         if (sender.getClass().equals(Character.class) && event.equals("init health")) {
             Character player = (Character) sender;
 
@@ -35,6 +35,22 @@ public class GameManager implements GameMediator {
 
             stats.setHealth(health);
         }
+
+        // notifies game manager to update player health
+        if (sender.getClass().equals(Character.class) && event.equals("update health")) {
+
+        }
+
+        if (sender.getClass().equals(Character.class) && event.equals("enter dungeon")) {
+            DungeonManager.displayDanger();
+            DungeonManager.displayDungeonTitle();
+            DungeonManager.dungeonLoop();
+        }
+
+        // notifies game manager to update enemy health
+//        if (sender.getClass().equals(Character.class) && event.equals("update health")) {
+//
+//        }
     }
 
     @Override

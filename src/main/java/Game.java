@@ -9,6 +9,11 @@ import java.util.Scanner;
 
 public class Game {
     private static Character player;
+    private static GameManager gameManager;
+
+    public static Character getPlayer() {
+        return player;
+    }
 
     public static void introMessage() {
         // let's clear some space :)
@@ -252,7 +257,7 @@ public class Game {
 
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println("[ --                                    Character information                                    -- ]");
+        System.out.println("[ --                                    Character information                                   -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ -      info      - ]");
         System.out.println("name     " + playerInfo.getName());
@@ -262,7 +267,7 @@ public class Game {
 
         System.out.println("[ -      stats     - ]");
         System.out.println("xp       " + playerStats.getXp());
-        System.out.println("health   " + playerStats.getHealth());
+        System.out.println(ConsoleColors.RED + "health   " + playerStats.getHealth() + ConsoleColors.DEFAULT);
         System.out.println("attack   " + playerStats.getAttack());
         System.out.println("defense  " + playerStats.getDefense());
         System.out.println("stamina  " + playerStats.getStamina());
@@ -316,11 +321,32 @@ public class Game {
     public static void displayTreasure() {
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&%,*/(///******/**/////*/////**/(///**//***%%#*.,,%&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&@&,*/*////*//**///*////**/**/*/*///*///(/*/&&%(..,,,*&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&@@@**,,*,*/*////(/(/((//((/(//////(/(//(///(@&@%,,,,,.,*&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&%@*(////////////*/*,*,,*/////((/((((((/(((((@@@(*,,.,.,/&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&%%*#&./**********//@%@(*****,,,/////(/((((((@@@@*,,,,,.**&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&(*#(/,/**,*,***/*/####%,,**,*//,.,**////#&%/%@@/*,,.,.***&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&((#((%(/*//((##/##/##((#(####/##%( .****%/(/#%(,,*****//*&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&((,//*,,,,.,.*#(((/((//((/(((/##***(((###(((/#(**,**,,.,*&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&//*.*,*.**,,******((*((.*,,,,,,,,,,,,(#####(###**,,...,/*&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&((/,******,,******/*.((,/*. *,,*,,*,,,*,(/.((((*...,,,,/%&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&/((,****,********,./((.,**,***,,****,,****,(((*,.,.,.../&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&((.,**/**.*****/******/********/*,.*,**,**###*.,,.,,,./&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&((,*.,***************(**.,*,*,,********,,,##(*,.,,,.,.,%%%%%%%%%&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&((*,*/****/*,***/*.****/*******,*,*,/** ,*(((*,....,.*,###%%%%%%%%%%%&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&((((((/%#//*/////*****,,,**/*.,*******,/((#*,,.,,/*########%%%%%%%%&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&((((((((((/*.**,,,*******(//*(((**.*/*##########%%%%&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&(((((((/#((/.///*##(****##########%&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&(((#((#((*/####&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println();
+
         System.out.println("ooh! look! you found treasure!");
-        System.out.println("   ___________  ");
-        System.out.println("   |----*----|  ");
-        System.out.println("   |---------|  ");
-        System.out.println("  [___________]  ");
     }
 
     public static void gameloop(Scanner userInput) {
@@ -330,23 +356,10 @@ public class Game {
         boolean gameActive = false;
 
         while (selection == 0) {
+            System.out.println();
             System.out.println("----------------------------------------------------------------------------------------------------");
-            System.out.println("[ --                                          Main menu                                         -- ]");
+            System.out.println("[ --                                           Surface                                          -- ]");
             System.out.println("----------------------------------------------------------------------------------------------------");
-//            System.out.println("               00                  00               ");
-//            System.out.println("             0000                  0000             ");
-//            System.out.println("                 00              00                 ");
-//            System.out.println("                  00  XXXXXXXX  00                  ");
-//            System.out.println("                    XXXXXXXXXXXX                    ");
-//            System.out.println("                    X   XXXX   X                    ");
-//            System.out.println("                    XXXXXXXXXXXX                    ");
-//            System.out.println("                    XX||||||||XX                    ");
-//            System.out.println("                  00  XXXXXXXX  00                  ");
-//            System.out.println("                 00              00                 ");
-//            System.out.println("             0000                  0000             ");
-//            System.out.println("               00                  00               ");
-//            System.out.println();
-
             System.out.println("choose your fate!");
             System.out.println("1.) enter the dungeon!");
             System.out.println("2.) visit shop");
@@ -357,12 +370,13 @@ public class Game {
             selection = userInput.nextInt();
 
             if (selection == 1) {
-//                GameMediator.notify();
-                selection = 0;
+                gameManager.alert(player, "enter dungeon");
             }
 
             if (selection == 2) {
+                // TODO
 //                displayShop();
+                displayTreasure();
                 selection = 0;
             }
 
@@ -378,10 +392,14 @@ public class Game {
         }
     }
 
+    public static void recieve() {
+
+    }
+
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
 
-        GameManager gameManager = new GameManager();
+        gameManager = new GameManager();
 
         introMessage();
         promptCreateCharacter(userInput);
