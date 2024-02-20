@@ -55,13 +55,19 @@ public class Game {
 
         invalid = false;
 
-        race = switch (characterRace) {
-            case 1 -> "human";
-            case 2 -> "orc";
-            case 3 -> "elf";
-            default -> "human"; // default
+        race = "human"; // fallback
 
-        };
+        if (characterRace == 1) {
+            race = "human";
+        }
+
+        if (characterRace == 2) {
+            race = "orc";
+        }
+
+        if (characterRace == 3) {
+            race = "elf";
+        }
 
         // ask user to choose a role
         int characterRole = 0;
@@ -82,13 +88,19 @@ public class Game {
             invalid = true;
         }
 
-        role = switch (characterRole) {
-            case 1 -> "knight";
-            case 2 -> "hunter";
-            case 3 -> "wizard";
-            default -> "knight"; // default
+        role = "knight";
 
-        };
+        if (characterRole == 1) {
+            role = "knight";
+        }
+
+        if (characterRole == 2) {
+            role = "hunter";
+        }
+
+        if (characterRole == 3) {
+            role = "wizard";
+        }
 
         player = new Character();
         CharacterInfo playerInfo = player.getCharacterInfo();
@@ -120,111 +132,117 @@ public class Game {
         playerStats.setSpeed(1);
 
         playerInventory.setCoin(PlayerConstants.DEFAULT_COIN);
-        
-        switch (playerInfo.getRace()) {
-            case "human" -> playerStats.increaseStamina();
-            case "orc" -> playerStats.increaseAttack();
-            case "elf" -> playerStats.increaseSpeed();
-        };
-        
-        switch (playerInfo.getRole()) {
-            case "knight" -> {
-                playerStats.increaseAttack();
-                playerStats.increaseDefense();
 
-                // create weapons
-                Sword knightWeapon = (Sword) weaponFactory.makeSword();
-                knightWeapon.setName("old sword");
-                knightWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
+        if (playerInfo.getRace().equals("human")) {
+            playerStats.increaseStamina();
+        }
 
-                Alt knightAlt = new Alt();
-                knightAlt.setName("punch");
+        if (playerInfo.getRace().equals("orc")) {
+            playerStats.increaseAttack();
+        }
 
-                playerInventory.setWeapon(knightWeapon);
-                playerInventory.setAlt(knightAlt);
+        if (playerInfo.getRace().equals("elf")) {
+            playerStats.increaseSpeed();
+        }
 
-                // create armor
-                ChestArmor chest = armorFactory.makeChestArmor();
-                chest.setName("haggard shirt");
-                chest.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+        if (playerInfo.getRole().equals("knight")) {
+            playerStats.increaseAttack();
+            playerStats.increaseDefense();
 
-                Armor pants = armorFactory.makeLegArmor();
-                pants.setName("haggard pants");
-                pants.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+            // create weapons
+            Sword knightWeapon = weaponFactory.makeSword();
+            knightWeapon.setName("old sword");
+            knightWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
 
-                Armor boots = armorFactory.makeBootArmor();
-                boots.setName("haggard boots");
-                boots.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+            Alt knightAlt = new Alt();
+            knightAlt.setName("punch");
 
-                playerInventory.setArmor(chest);
-                playerInventory.setArmor(pants);
-                playerInventory.setArmor(boots);
-            }
-            case "hunter" -> {
-                playerStats.increaseSpeed();
-                playerStats.increaseStamina();
+            playerInventory.setWeapon(knightWeapon);
+            playerInventory.setAlt(knightAlt);
 
-                // create weapons
-                Bow hunterWeapon = (Bow) weaponFactory.makeBow();
-                hunterWeapon.setName("old bow");
-                hunterWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
+            // create armor
+            ChestArmor chest = armorFactory.makeChestArmor();
+            chest.setName("haggard shirt");
+            chest.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
 
-                Alt knightAlt = new Alt();
-                knightAlt.setName("dagger");
+            Armor pants = armorFactory.makeLegArmor();
+            pants.setName("haggard pants");
+            pants.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
 
-                playerInventory.setWeapon(hunterWeapon);
-                playerInventory.setAlt(knightAlt);
+            Armor boots = armorFactory.makeBootArmor();
+            boots.setName("haggard boots");
+            boots.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
 
-                // create armor
-                ChestArmor tunic = armorFactory.makeChestArmor();
-                tunic.setName("haggard tunic");
-                tunic.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+            playerInventory.setArmor(chest);
+            playerInventory.setArmor(pants);
+            playerInventory.setArmor(boots);
+        }
 
-                Armor pants = armorFactory.makeLegArmor();
-                pants.setName("haggard pants");
-                pants.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+        if (playerInfo.getRole().equals("hunter")) {
+            playerStats.increaseSpeed();
+            playerStats.increaseStamina();
 
-                Armor boots = armorFactory.makeBootArmor();
-                boots.setName("haggard boots");
-                boots.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+            // create weapons
+            Bow hunterWeapon = weaponFactory.makeBow();
+            hunterWeapon.setName("old bow");
+            hunterWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
 
-                playerInventory.setArmor(tunic);
-                playerInventory.setArmor(pants);
-                playerInventory.setArmor(boots);
-            }
-            case "wizard" -> {
-                playerStats.increaseStamina();
-                playerStats.increaseAttack();
+            Alt knightAlt = new Alt();
+            knightAlt.setName("dagger");
 
-                // create weapons
-                Staff wizardWeapon = (Staff) weaponFactory.makeStaff();
-                wizardWeapon.setName("old staff");
-                wizardWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
+            playerInventory.setWeapon(hunterWeapon);
+            playerInventory.setAlt(knightAlt);
 
-                Alt knightAlt = new Alt();
-                knightAlt.setName("quick spell");
+            // create armor
+            ChestArmor tunic = armorFactory.makeChestArmor();
+            tunic.setName("haggard tunic");
+            tunic.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
 
-                playerInventory.setWeapon(wizardWeapon);
-                playerInventory.setAlt(knightAlt);
+            Armor pants = armorFactory.makeLegArmor();
+            pants.setName("haggard pants");
+            pants.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
 
-                // create armor
-                HeadArmor hat = armorFactory.makeHeadArmor();
-                hat.setName("haggard hat");
-                hat.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+            Armor boots = armorFactory.makeBootArmor();
+            boots.setName("haggard boots");
+            boots.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
 
-                Armor robe = armorFactory.makeChestArmor();
-                robe.setName("haggard robe");
-                robe.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+            playerInventory.setArmor(tunic);
+            playerInventory.setArmor(pants);
+            playerInventory.setArmor(boots);
+        }
 
-                Armor sandals = armorFactory.makeBootArmor();
-                sandals.setName("haggard sandals");
-                sandals.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+        if (playerInfo.getRole().equals("wizard")) {
+            playerStats.increaseStamina();
+            playerStats.increaseAttack();
 
-                playerInventory.setArmor(hat);
-                playerInventory.setArmor(robe);
-                playerInventory.setArmor(sandals);
-            }
-        };
+            // create weapons
+            Staff wizardWeapon = weaponFactory.makeStaff();
+            wizardWeapon.setName("old staff");
+            wizardWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
+
+            Alt knightAlt = new Alt();
+            knightAlt.setName("quick spell");
+
+            playerInventory.setWeapon(wizardWeapon);
+            playerInventory.setAlt(knightAlt);
+
+            // create armor
+            HeadArmor hat = armorFactory.makeHeadArmor();
+            hat.setName("haggard hat");
+            hat.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+            Armor robe = armorFactory.makeChestArmor();
+            robe.setName("haggard robe");
+            robe.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+            Armor sandals = armorFactory.makeBootArmor();
+            sandals.setName("haggard sandals");
+            sandals.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+            playerInventory.setArmor(hat);
+            playerInventory.setArmor(robe);
+            playerInventory.setArmor(sandals);
+        }
     }
 
     public static void displayCharacter(Scanner userInput) {
