@@ -1,7 +1,14 @@
+import java.util.ArrayList;
+
+/**
+ * CharacterInventory.java class that holds the character inventory
+ *
+ * */
+
 public class CharacterInventory {
     private Weapon weapon;
     private Alt alt;
-    private Armor[] armor;
+    private final ArrayList<Armor> armor = new ArrayList<>();
     private int coin;
 
     public Weapon getWeapon() {
@@ -20,12 +27,12 @@ public class CharacterInventory {
         this.alt = alt;
     }
 
-    public Armor[] getArmor() {
+    public ArrayList<Armor> getArmor() {
         return armor;
     }
 
-    public void setArmor(Armor[] armor) {
-        this.armor = armor;
+    public void setArmor(Armor piece) {
+        this.armor.add(piece);
     }
 
     public int getCoin() {

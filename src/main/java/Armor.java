@@ -1,22 +1,40 @@
-/**
- * Armor.java interface that describes parts of an armor piece
- * The goal of this class is to create an armor piece interface.
- * This implementation is based off the Factory pattern design pattern.
- * */
+public abstract class Armor implements ArmorTemplate {
+    private String name;
+    private double resistance;
 
-public interface Armor {
     /**
-     * set weapon name
-     * @param name name of the armor piece */
-    void setName (String name);
+     * set armor name
+     * @param name name of the armor piece
+     */
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * get weapon name
-     * @return name of the weapon */
-    String getName();
+     * @return name of the armor piece
+     */
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * set the additional attack
+     * @param resistance the resistance of an armor piece
+     */
+    @Override
+    public void setResistance(double resistance) {
+        this.resistance = resistance;
+    }
 
     /**
      * get the base attack
-     * @return base attack of the weapon */
-    double getBaseAttack();
+     * @return base attack of the weapon
+     */
+    @Override
+    public double getResistance() {
+        return resistance;
+    }
 }

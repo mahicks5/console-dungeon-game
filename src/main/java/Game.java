@@ -1,3 +1,10 @@
+/**
+ * Game.java main game class
+ * This runs the game and hold the logic for navigating the game
+ * */
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -21,26 +28,27 @@ public class Game {
         String role;
 
         // ask user to name their character
+        System.out.println("[ --                                    Create your character                                   -- ]");
         System.out.println("enter character name:");
         name = userInput.nextLine();
 
         boolean invalid = false;
 
         // ask user to choose a race
-        String characterRace = "";
+        int characterRace = 0;
 
-        while (!characterRace.equals("1") && !characterRace.equals("2") && !characterRace.equals("3")) {
+        while (characterRace < 1 || characterRace > 3) {
             if (invalid) {
                 System.out.println("invalid choice. please choose again");
             }
 
             System.out.println();
-            System.out.println("choose race:");
+            System.out.println("choose your race:");
             System.out.println("1.) human");
             System.out.println("2.) orc");
             System.out.println("3.) elf");
             System.out.println();
-            characterRace = userInput.nextLine();
+            characterRace = userInput.nextInt();
 
             invalid = true;
         }
@@ -48,36 +56,36 @@ public class Game {
         invalid = false;
 
         race = switch (characterRace) {
-            case "1" -> "human";
-            case "2" -> "orc";
-            case "3" -> "elf";
+            case 1 -> "human";
+            case 2 -> "orc";
+            case 3 -> "elf";
             default -> "human"; // default
 
         };
 
         // ask user to choose a role
-        String characterRole = "";
+        int characterRole = 0;
 
-        while (!characterRole.equals("1") && !characterRole.equals("2") && !characterRole.equals("3")) {
+        while (characterRole < 1 || characterRole > 3) {
             if (invalid) {
                 System.out.println("invalid choice. please choose again");
             }
 
             System.out.println();
-            System.out.println("choose race:");
+            System.out.println("choose your role:");
             System.out.println("1.) knight");
             System.out.println("2.) hunter");
             System.out.println("3.) wizard");
             System.out.println();
-            characterRole = userInput.nextLine();
+            characterRole = userInput.nextInt();
 
             invalid = true;
         }
 
         role = switch (characterRole) {
-            case "1" -> "knight";
-            case "2" -> "hunter";
-            case "3" -> "wizard";
+            case 1 -> "knight";
+            case 2 -> "hunter";
+            case 3 -> "wizard";
             default -> "knight"; // default
 
         };
@@ -97,7 +105,13 @@ public class Game {
         CharacterInfo playerInfo = player.getCharacterInfo();
         CharacterStats playerStats = player.getCharacterStats();
         CharacterInventory playerInventory = player.getCharacterInventory();
-        
+
+        // create weapon factory
+        WeaponFactory weaponFactory = new WeaponFactory();
+
+        // create armor factory
+        ArmorFactory armorFactory = new ArmorFactory();
+
         // standard build
         playerStats.setStatus("healthy");
         playerStats.setAttack(1);
@@ -116,8 +130,10 @@ public class Game {
         switch (playerInfo.getRole()) {
             case "knight" -> {
                 playerStats.increaseAttack();
+                playerStats.increaseDefense();
 
-                Sword knightWeapon = new Sword();
+                // create weapons
+                Sword knightWeapon = (Sword) weaponFactory.makeSword();
                 knightWeapon.setName("old sword");
                 knightWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
 
@@ -126,11 +142,30 @@ public class Game {
 
                 playerInventory.setWeapon(knightWeapon);
                 playerInventory.setAlt(knightAlt);
+
+                // create armor
+                ChestArmor chest = armorFactory.makeChestArmor();
+                chest.setName("haggard shirt");
+                chest.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                Armor pants = armorFactory.makeLegArmor();
+                pants.setName("haggard pants");
+                pants.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                Armor boots = armorFactory.makeBootArmor();
+                boots.setName("haggard boots");
+                boots.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                playerInventory.setArmor(chest);
+                playerInventory.setArmor(pants);
+                playerInventory.setArmor(boots);
             }
             case "hunter" -> {
                 playerStats.increaseSpeed();
+                playerStats.increaseStamina();
 
-                Bow hunterWeapon = new Bow();
+                // create weapons
+                Bow hunterWeapon = (Bow) weaponFactory.makeBow();
                 hunterWeapon.setName("old bow");
                 hunterWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
 
@@ -139,11 +174,30 @@ public class Game {
 
                 playerInventory.setWeapon(hunterWeapon);
                 playerInventory.setAlt(knightAlt);
+
+                // create armor
+                ChestArmor tunic = armorFactory.makeChestArmor();
+                tunic.setName("haggard tunic");
+                tunic.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                Armor pants = armorFactory.makeLegArmor();
+                pants.setName("haggard pants");
+                pants.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                Armor boots = armorFactory.makeBootArmor();
+                boots.setName("haggard boots");
+                boots.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                playerInventory.setArmor(tunic);
+                playerInventory.setArmor(pants);
+                playerInventory.setArmor(boots);
             }
             case "wizard" -> {
                 playerStats.increaseStamina();
+                playerStats.increaseAttack();
 
-                Staff wizardWeapon = new Staff();
+                // create weapons
+                Staff wizardWeapon = (Staff) weaponFactory.makeStaff();
                 wizardWeapon.setName("old staff");
                 wizardWeapon.setAdditionalAttack(WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK);
 
@@ -152,16 +206,35 @@ public class Game {
 
                 playerInventory.setWeapon(wizardWeapon);
                 playerInventory.setAlt(knightAlt);
+
+                // create armor
+                HeadArmor hat = armorFactory.makeHeadArmor();
+                hat.setName("haggard hat");
+                hat.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                Armor robe = armorFactory.makeChestArmor();
+                robe.setName("haggard robe");
+                robe.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                Armor sandals = armorFactory.makeBootArmor();
+                sandals.setName("haggard sandals");
+                sandals.setResistance(ArmorConstants.DEFAULT_ARMOR_RESISTANCE);
+
+                playerInventory.setArmor(hat);
+                playerInventory.setArmor(robe);
+                playerInventory.setArmor(sandals);
             }
         };
     }
 
-    public static void displayCharacter() {
+    public static void displayCharacter(Scanner userInput) {
         CharacterInfo playerInfo = player.getCharacterInfo();
         CharacterStats playerStats = player.getCharacterStats();
         CharacterInventory playerInventory = player.getCharacterInventory();
 
         System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("[ --                                    Character information                                    -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ -      info      - ]");
         System.out.println("name     " + playerInfo.getName());
@@ -178,19 +251,128 @@ public class Game {
         System.out.println("speed    " + playerStats.getSpeed());
         System.out.println("status   " + playerStats.getStatus());
 
-        System.out.println("[ -    inventory   - ]");
-        System.out.println("weapon   " + playerInventory.getWeapon().getName());
-        System.out.println("alt      " + playerInventory.getAlt().getName());
-//        System.out.println("armor    " + playerInventory.getArmor());
-        System.out.println("coin     " + playerInventory.getCoin());
+        System.out.println();
+        System.out.println();
+        System.out.println("press enter to exit");
+
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    public static void displayInventory(Scanner userInput) {
+        CharacterInfo playerInfo = player.getCharacterInfo();
+        CharacterStats playerStats = player.getCharacterStats();
+        CharacterInventory playerInventory = player.getCharacterInventory();
+
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("[ --                                     Character inventory                                    -- ]");
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("[ -     weapon     - ]");
+        System.out.println(playerInventory.getWeapon().getClass().getName() + " " + playerInventory.getWeapon().getName());
+        System.out.println("[ -       alt      - ]");
+        System.out.println("alt      " + playerInventory.getAlt().getName());
+        System.out.println("[ -      armor     - ]");
+        ArrayList<Armor> armor = playerInventory.getArmor();
+
+        for (Armor piece : armor) {
+            System.out.println(piece.getClass().getName() + " " + piece.getName());
+        }
+
+        System.out.println("[ -       coin     - ]");
+        System.out.println("coin     " + playerInventory.getCoin());
+
+        System.out.println();
+        System.out.println();
+        System.out.println("press enter to exit");
+
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void displayTreasure() {
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("ooh! look! you found treasure!");
+        System.out.println("   ___________  ");
+        System.out.println("   |----*----|  ");
+        System.out.println("   |---------|  ");
+        System.out.println("  [___________]  ");
+    }
+
+    public static void gameloop(Scanner userInput) {
+        int selection = 0; // default; do nothing with 0
+
+        int tick = 0;
+        boolean gameActive = false;
+
+        while (selection == 0) {
+            System.out.println("----------------------------------------------------------------------------------------------------");
+            System.out.println("[ --                                          Main menu                                         -- ]");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+//            System.out.println("               00                  00               ");
+//            System.out.println("             0000                  0000             ");
+//            System.out.println("                 00              00                 ");
+//            System.out.println("                  00  XXXXXXXX  00                  ");
+//            System.out.println("                    XXXXXXXXXXXX                    ");
+//            System.out.println("                    X   XXXX   X                    ");
+//            System.out.println("                    XXXXXXXXXXXX                    ");
+//            System.out.println("                    XX||||||||XX                    ");
+//            System.out.println("                  00  XXXXXXXX  00                  ");
+//            System.out.println("                 00              00                 ");
+//            System.out.println("             0000                  0000             ");
+//            System.out.println("               00                  00               ");
+//            System.out.println();
+
+            System.out.println("choose your fate!");
+            System.out.println("1.) enter the dungeon!");
+            System.out.println("2.) visit shop");
+            System.out.println("3.) display character");
+            System.out.println("4.) display inventory");
+            System.out.println();
+
+            selection = userInput.nextInt();
+
+            if (selection == 1) {
+//                GameMediator.notify();
+                selection = 0;
+            }
+
+            if (selection == 2) {
+//                displayShop();
+                selection = 0;
+            }
+
+            if (selection == 3) {
+                displayCharacter(userInput);
+                selection = 0;
+            }
+
+            if (selection == 4) {
+                displayInventory(userInput);
+                selection = 0;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
+
+        GameManager gameManager = new GameManager();
 
         introMessage();
         promptCreateCharacter(userInput);
         buildStarterCharacter();
-        displayCharacter();
+
+        gameManager.alert(player, "player init");
+        gameManager.alert(player, "init health");
+
+        gameloop(userInput);
 
         userInput.close();
     }

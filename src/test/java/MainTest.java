@@ -13,16 +13,16 @@ public class MainTest {
 
     @Test
     public void testWeaponFactoryWeaponTypes() {
-        WeaponTemplate swordTest = weaponFactory.makeWeapon("Sword");
+        WeaponTemplate swordTest = weaponFactory.makeSword();
         swordTest.setName("Apothican Sword");
         swordTest.setAdditionalAttack(10);
 
-        WeaponTemplate staffTest = weaponFactory.makeWeapon("Staff");
+        WeaponTemplate staffTest = weaponFactory.makeStaff();
         staffTest.setName("Staff of Ice");
         staffTest.setAdditionalAttack(10);
 
 
-        WeaponTemplate bowTest = weaponFactory.makeWeapon("Bow");
+        WeaponTemplate bowTest = weaponFactory.makeBow();
         bowTest.setName("Wrath of the Ancients");
         bowTest.setAdditionalAttack(10);
 

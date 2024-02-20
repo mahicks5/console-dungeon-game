@@ -1,3 +1,7 @@
+/**
+ * Weapon.java class that defines some basic methods for a weapon
+ * */
+
 public abstract class Weapon implements WeaponTemplate {
     private String name;
 

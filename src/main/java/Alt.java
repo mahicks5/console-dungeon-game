@@ -1,5 +1,5 @@
 /**
- * Sword.java implementation of a Sword using the WeaponTemplate interface
+ * Alt.java implementation of an Alt class using the WeaponTemplate interface
  * */
 
 public class Alt extends Weapon {

@@ -1,3 +1,7 @@
+/**
+ * WeaponConstants.java interface that defines some constants for the weapons in the game. Allows for easy customization
+ * */
+
 public interface WeaponConstants {
     double SWORD_BASE_ATTACK = 10.0;
     double STAFF_BASE_ATTACK = 11.0;

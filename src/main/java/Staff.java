@@ -1,9 +1,8 @@
 /**
- * Bow.java implementation of a Bow using the WeaponTemplate interface
+ * Staff.java implementation of a Bow using the WeaponTemplate interface
  * */
 
 public class Staff extends Weapon {
-    private String name;
     private double additionalAttack;
 
     public void setAdditionalAttack(double additionalAttack) {

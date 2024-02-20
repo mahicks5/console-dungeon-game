@@ -1,3 +1,6 @@
+/**
+ * CharacterStats.java class that holds the character's stats
+ * */
 public class CharacterStats {
     private int level;
     private int xp;

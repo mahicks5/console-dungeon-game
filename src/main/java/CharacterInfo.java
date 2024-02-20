@@ -1,3 +1,8 @@
+/**
+ * CharacterInfo.java class that holds basic character information.
+ *
+ * */
+
 public class CharacterInfo {
     private String name;
     private String race;

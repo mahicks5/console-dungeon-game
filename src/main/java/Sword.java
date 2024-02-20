@@ -3,7 +3,6 @@
  * */
 
 public class Sword extends Weapon {
-    private String name;
     private double additionalAttack;
 
     public void setAdditionalAttack(double additionalAttack) {
