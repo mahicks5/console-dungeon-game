@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class TestSuite {
     GameManager gameManager;
     WeaponFactory weaponFactory;
+    ArmorFactory armorFactory;
     EnemyFactory enemyFactory;
     EnemyAttackGenerator enemyAttackGenerator;
     RNG rng;
@@ -17,6 +19,7 @@ public class TestSuite {
     public void setUp() {
         gameManager = new GameManager().getGameManager();
         weaponFactory = new WeaponFactory();
+        armorFactory = new ArmorFactory();
         enemyFactory = new EnemyFactory();
         enemyAttackGenerator = new EnemyAttackGenerator();
         rng = new RNG();
@@ -305,5 +308,48 @@ public class TestSuite {
 //        DungeonManager.battleLoop();
 
         assertEquals(1, DungeonManager.getDepth());
+    }
+
+    @Test
+    public void testArmorClasses() {
+        HeadArmor testHeadArmor = armorFactory.makeHeadArmor();
+        testHeadArmor.setName("test helmet");
+        testHeadArmor.setResistance(1.0);
+
+        ArmArmor testArmArmor = armorFactory.makeArmsArmor();
+        testArmArmor.setName("test arms");
+        testArmArmor.setResistance(1.0);
+
+        ChestArmor testChestArmor = armorFactory.makeChestArmor();
+        testChestArmor.setName("test chestplate");
+        testChestArmor.setResistance(1.0);
+
+        LegArmor testLegArmor = armorFactory.makeLegArmor();
+        testLegArmor.setName("test legs");
+        testLegArmor.setResistance(1.0);
+
+        BootArmor testBootArmor = armorFactory.makeBootArmor();
+        testBootArmor.setName("test boots");
+        testBootArmor.setResistance(1.0);
+
+        Assert.assertNotNull(testHeadArmor);
+        assertEquals("test helmet", testHeadArmor.getName());
+        assertEquals(1.0, testHeadArmor.getResistance(), 0.0);
+
+        Assert.assertNotNull(testArmArmor);
+        assertEquals("test arms", testArmArmor.getName());
+        assertEquals(1.0, testArmArmor.getResistance(), 0.0);
+
+        Assert.assertNotNull(testChestArmor);
+        assertEquals("test chestplate", testChestArmor.getName());
+        assertEquals(1.0, testChestArmor.getResistance(), 0.0);
+
+        Assert.assertNotNull(testLegArmor);
+        assertEquals("test legs", testLegArmor.getName());
+        assertEquals(1.0, testLegArmor.getResistance(), 0.0);
+
+        Assert.assertNotNull(testBootArmor);
+        assertEquals("test boots", testBootArmor.getName());
+        assertEquals(1.0, testBootArmor.getResistance(), 0.0);
     }
 }
