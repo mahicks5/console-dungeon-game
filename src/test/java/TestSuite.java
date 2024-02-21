@@ -1,11 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
 public class TestSuite {
@@ -13,14 +10,16 @@ public class TestSuite {
     WeaponFactory weaponFactory;
     EnemyFactory enemyFactory;
     EnemyAttackGenerator enemyAttackGenerator;
+    RNG rng;
     Character player;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         gameManager = new GameManager().getGameManager();
         weaponFactory = new WeaponFactory();
         enemyFactory = new EnemyFactory();
         enemyAttackGenerator = new EnemyAttackGenerator();
+        rng = new RNG();
 
         // create a test player
         String name = "player1";
@@ -259,6 +258,40 @@ public class TestSuite {
         for (String attackName : results) {
             System.out.println(attackName);
         }
+    }
+
+    // same as above
+    @Test
+    public void testRNG() {
+        int RESULTS = 10000;
+
+        double CHANCE = 0.50;
+
+        int timesTrue = 0;
+        int timesFalse = 0;
+
+        double pTrue;
+        double pFalse;
+
+        for (int i = 0; i < RESULTS; i++) {
+            boolean roll = rng.roll(CHANCE);
+
+            if (roll) {
+                timesTrue++;
+            } else {
+                timesFalse++;
+            }
+        }
+
+        pTrue = (timesTrue / ((double) RESULTS)) * 100.0;
+        pFalse = (timesFalse / ((double) RESULTS)) * 100.0;
+
+        assertEquals(50.0, pTrue, 2.0);
+        assertEquals(50.0, pFalse, 2.0);
+
+        // was curious
+        System.out.println();
+        System.out.println(pTrue + "% true; " + pFalse + "% false");
     }
 
     @Test
