@@ -106,7 +106,7 @@ public class DungeonManager {
             enemy.setHealth(health);
 
 
-            enemy.setAttackname(enemyAttackGenerator.getRandomMinorEnemyAttack());
+            enemy.setAttackName(enemyAttackGenerator.getRandomMinorEnemyAttack());
 
             double damage = EnemyConstants.MINOR_ENEMY_BASE_DAMAGE + (depth * EnemyConstants.DEPTH_DAMAGE_BONUS);
 
@@ -119,7 +119,7 @@ public class DungeonManager {
             enemy.setHealth(health);
 
 
-            enemy.setAttackname(enemyAttackGenerator.getRandomMajorEnemyAttack());
+            enemy.setAttackName(enemyAttackGenerator.getRandomMajorEnemyAttack());
 
             double damage = EnemyConstants.MAJOR_ENEMY_BASE_DAMAGE + (depth * EnemyConstants.DEPTH_DAMAGE_BONUS);
 
@@ -132,7 +132,7 @@ public class DungeonManager {
             enemy.setHealth(health);
 
 
-            enemy.setAttackname(enemyAttackGenerator.getRandomBossEnemyAttack());
+            enemy.setAttackName(enemyAttackGenerator.getRandomBossEnemyAttack());
 
             double damage = EnemyConstants.BOSS_ENEMY_BASE_DAMAGE + (depth * EnemyConstants.DEPTH_DAMAGE_BONUS);
 
@@ -196,10 +196,10 @@ public class DungeonManager {
                 );
             }
 
-            if (characterInventory.checkPotions() > 0) {
+            if (characterInventory.checkHealthPotions() > 0) {
                 potions_enabled = true;
 
-                System.out.println("3.) health potion (" + characterInventory.checkPotions() + " remaining)");
+                System.out.println("3.) health potion (" + characterInventory.checkHealthPotions() + " remaining)");
             }
 
             if ((depth % 10) == 0) {
@@ -230,7 +230,7 @@ public class DungeonManager {
 
             // chance to hit critical. includes event
             if (active_event.equals(Events.event4)) {
-                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRIT_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
+                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
 
                 if (chance) {
                     System.out.println(ConsoleColors.CYAN + "critical!" + ConsoleColors.DEFAULT);
@@ -239,7 +239,7 @@ public class DungeonManager {
                     damage *= 2;
                 }
             } else {
-                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRIT_CHANCE);
+                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE);
 
                 if (chance) {
                     System.out.println(ConsoleColors.CYAN + "critical!" + ConsoleColors.DEFAULT);
@@ -305,7 +305,7 @@ public class DungeonManager {
 
             // chance to hit critical. includes event
             if (active_event.equals(Events.event4)) {
-                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRIT_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
+                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
 
                 if (chance) {
                     System.out.println(ConsoleColors.CYAN + "critical!" + ConsoleColors.DEFAULT);
@@ -314,7 +314,7 @@ public class DungeonManager {
                     damage *= 2;
                 }
             } else {
-                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRIT_CHANCE);
+                boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE);
 
                 if (chance) {
                     System.out.println(ConsoleColors.CYAN + "critical!" + ConsoleColors.DEFAULT);
@@ -401,7 +401,7 @@ public class DungeonManager {
 
         // chance to hit critical. includes event
         if (active_event.equals(Events.event4)) {
-            boolean chance = rng.roll(DungeonConstants.DEFAULT_CRIT_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
+            boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
 
             if (chance) {
                 System.out.println(ConsoleColors.CYAN + "critical!" + ConsoleColors.DEFAULT);
@@ -410,7 +410,7 @@ public class DungeonManager {
                 damage *= 2;
             }
         } else {
-            boolean chance = rng.roll(DungeonConstants.DEFAULT_CRIT_CHANCE);
+            boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE);
 
             if (chance) {
                 System.out.println(ConsoleColors.CYAN + "critical!" + ConsoleColors.DEFAULT);
@@ -447,7 +447,7 @@ public class DungeonManager {
             System.out.println(
                     ConsoleColors.RED + enemy.getName() + ConsoleColors.DEFAULT +
                             " hits you with " +
-                            ConsoleColors.PURPLE + enemy.getAttackname() + ConsoleColors.DEFAULT
+                            ConsoleColors.PURPLE + enemy.getAttackName() + ConsoleColors.DEFAULT
             );
 
             System.out.println();

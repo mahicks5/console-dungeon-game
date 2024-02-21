@@ -18,6 +18,10 @@ public class Bow extends Weapon {
     }
 
     public double getAttack() {
+        if (Game.getPlayer() == null) {
+            return WeaponConstants.BOW_BASE_ATTACK;
+        }
+
         return WeaponConstants.BOW_BASE_ATTACK + (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack);
     }
 }

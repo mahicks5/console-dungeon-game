@@ -1,6 +1,6 @@
 public class Enemy {
     private String name;
-    private String attackname;
+    private String attackName;
     private double attack;
     private double health;
 
@@ -12,12 +12,12 @@ public class Enemy {
         this.name = name;
     }
 
-    public String getAttackname() {
-        return attackname;
+    public String getAttackName() {
+        return attackName;
     }
 
-    public void setAttackname(String attackname) {
-        this.attackname = attackname;
+    public void setAttackName(String attackName) {
+        this.attackName = attackName;
     }
 
     public double getAttack() {

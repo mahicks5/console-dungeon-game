@@ -57,7 +57,7 @@ public class CharacterStats {
                 PlayerConstants.BASE_HEALTH +
                         (defense * PlayerConstants.DEFENSE_BONUS) +
                         (level * PlayerConstants.LEVEL_BONUS)
-        );;
+        );
     }
 
     public void takeDamage(double amount) {

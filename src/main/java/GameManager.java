@@ -39,10 +39,6 @@ public class GameManager implements GameMediator {
             DungeonManager.displayDungeonTitle();
             DungeonManager.dungeonLoop();
         }
-
-        if (sender.getClass().equals(Character.class) && event.equals("leave dungeon")) {
-            // TODO leave
-        }
     }
 
     @Override

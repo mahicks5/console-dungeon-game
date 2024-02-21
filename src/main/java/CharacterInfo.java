@@ -1,6 +1,5 @@
 /**
  * CharacterInfo.java class that holds basic character information.
- *
  * */
 
 public class CharacterInfo {

@@ -1,20 +1,20 @@
 import java.util.Random;
 
 public class EnemyAttackGenerator {
-    private String[] minorEnemyAttack = {
+    private final String[] minorEnemyAttack = {
             "sword",
             "bow",
             "bite",
             "fist"
     };
-    private String[] majorEnemyAttack = {
+    private final String[] majorEnemyAttack = {
             "claymore",
             "elemental bow",
             "triple bite",
             "blade claws",
             "awful scream"
     };
-    private String[] bossEnemyAttack = {
+    private final String[] bossEnemyAttack = {
             "ground stomp",
             "rock throw",
             "mega smack",

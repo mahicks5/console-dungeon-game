@@ -1,20 +1,20 @@
 import java.util.Random;
 
 public class EnemyNameGenerator {
-    private String[] minorEnemyNames = {
+    private final String[] minorEnemyNames = {
             "skeleton",
             "spider",
             "zombie",
             "rat"
     };
-    private String[] majorEnemyNames = {
+    private final String[] majorEnemyNames = {
             "skeleton warrior",
             "zombie prince",
             "16-legged spider",
             "mutant rat",
             "mad geist"
     };
-    private String[] bossEnemyNames = {
+    private final String[] bossEnemyNames = {
             "deepclaw, the blackened fang",
             "goryo ratblood",
             "toothdagger, demented",
@@ -22,7 +22,7 @@ public class EnemyNameGenerator {
             "aggar manyarms",
             "skor, prince of bones",
             "gothar, ruler of the undead",
-            "fuliee the threatning"
+            "fuliee the threatening"
     };
 
     public String getRandomMinorEnemyName() {

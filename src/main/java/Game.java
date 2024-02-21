@@ -11,6 +11,10 @@ public class Game {
     private static Character player;
     private static GameManager gameManager;
 
+    public static void setPlayer(Character player) {
+        Game.player = player;
+    }
+
     public static Character getPlayer() {
         return player;
     }
@@ -252,10 +256,8 @@ public class Game {
         }
     }
 
-    public static void displayCharacterInfo(Scanner userInput) {
+    public static void displayCharacterInfo() {
         CharacterInfo playerInfo = player.getCharacterInfo();
-        CharacterStats playerStats = player.getCharacterStats();
-        CharacterInventory playerInventory = player.getCharacterInventory();
 
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
@@ -267,10 +269,8 @@ public class Game {
 
         delayExecutionUntilEnterIsPressed();
     }
-    public static void displayCharacterStats(Scanner userInput) {
-        CharacterInfo playerInfo = player.getCharacterInfo();
+    public static void displayCharacterStats() {
         CharacterStats playerStats = player.getCharacterStats();
-        CharacterInventory playerInventory = player.getCharacterInventory();
 
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
@@ -298,9 +298,7 @@ public class Game {
     }
 
     public static void displayStatUpgradeScreen(Scanner userInput) {
-        CharacterInfo playerInfo = player.getCharacterInfo();
         CharacterStats playerStats = player.getCharacterStats();
-        CharacterInventory playerInventory = player.getCharacterInventory();
 
         int selection = 0;
 
@@ -393,9 +391,7 @@ public class Game {
         delayExecutionUntilEnterIsPressed();
     }
 
-    public static void displayInventory(Scanner userInput) {
-        CharacterInfo playerInfo = player.getCharacterInfo();
-        CharacterStats playerStats = player.getCharacterStats();
+    public static void displayInventory() {
         CharacterInventory playerInventory = player.getCharacterInventory();
 
         System.out.println();
@@ -423,7 +419,7 @@ public class Game {
         System.out.println();
 
         System.out.println("[ - potions                                                                                      - ]");
-        System.out.println("health potions      " + playerInventory.checkPotions());
+        System.out.println("health potions      " + playerInventory.checkHealthPotions());
         System.out.println("antidote            ");
         System.out.println();
 
@@ -437,11 +433,9 @@ public class Game {
     }
 
     public static void displayShop(Scanner userInput) {
-        CharacterInfo playerInfo = player.getCharacterInfo();
-        CharacterStats playerStats = player.getCharacterStats();
         CharacterInventory playerInventory = player.getCharacterInventory();
 
-        int selection = 0; // default; do nothing with 0
+        int selection = 0;
 
         while (selection != 6) {
             System.out.println();
@@ -489,19 +483,71 @@ public class Game {
             }
 
             if (selection == 2) {
-                // TODO
+                if (playerInventory.getCoin() >= ShopConstants.ANTIDOTE_POTION_COST) {
+                    System.out.println();
+                    System.out.println("ah. good one there.");
+
+                    playerInventory.spendCoin(ShopConstants.ANTIDOTE_POTION_COST);
+                    playerInventory.addAntidotesPotion();
+
+                    delayExecutionUntilEnterIsPressed();
+                } else {
+                    System.out.println();
+                    System.out.println("not enough coin, stranger.");
+
+                    delayExecutionUntilEnterIsPressed();
+                }
             }
 
             if (selection == 3) {
+                if (playerInventory.getCoin() >= ShopConstants.TOME_OF_BANISHMENT_COST) {
+                    System.out.println();
+                    System.out.println("ah. good one there.");
 
+                    playerInventory.spendCoin(ShopConstants.TOME_OF_BANISHMENT_COST);
+                    playerInventory.addTome(1);
+
+                    delayExecutionUntilEnterIsPressed();
+                } else {
+                    System.out.println();
+                    System.out.println("not enough coin, stranger.");
+
+                    delayExecutionUntilEnterIsPressed();
+                }
             }
 
             if (selection == 4) {
+                if (playerInventory.getCoin() >= ShopConstants.TOME_OF_WEALTH_COST) {
+                    System.out.println();
+                    System.out.println("ah. good one there.");
 
+                    playerInventory.spendCoin(ShopConstants.TOME_OF_WEALTH_COST);
+                    playerInventory.addTome(2);
+
+                    delayExecutionUntilEnterIsPressed();
+                } else {
+                    System.out.println();
+                    System.out.println("not enough coin, stranger.");
+
+                    delayExecutionUntilEnterIsPressed();
+                }
             }
 
             if (selection == 5) {
+                if (playerInventory.getCoin() >= ShopConstants.TOME_OF_EXPERIENCE_COST) {
+                    System.out.println();
+                    System.out.println("ah. good one there.");
 
+                    playerInventory.spendCoin(ShopConstants.TOME_OF_EXPERIENCE_COST);
+                    playerInventory.addTome(3);
+
+                    delayExecutionUntilEnterIsPressed();
+                } else {
+                    System.out.println();
+                    System.out.println("not enough coin, stranger.");
+
+                    delayExecutionUntilEnterIsPressed();
+                }
             }
         }
 
@@ -510,7 +556,6 @@ public class Game {
 
     public static void compoundLevels() {
         CharacterStats characterStats = player.getCharacterStats();
-        CharacterInventory characterInventory = player.getCharacterInventory();
 
         int level = (characterStats.getXp() / PlayerConstants.LEVEL_CAP);
 
@@ -533,7 +578,7 @@ public class Game {
     }
 
     public static void gameloop(Scanner userInput) {
-        int selection = 0; // default; do nothing with 0
+        int selection = 0;
 
         compoundLevels();
 
@@ -570,17 +615,17 @@ public class Game {
             }
 
             if (selection == 4) {
-                displayCharacterInfo(userInput);
+                displayCharacterInfo();
                 selection = 0;
             }
 
             if (selection == 5) {
-                displayCharacterStats(userInput);
+                displayCharacterStats();
                 selection = 0;
             }
 
             if (selection == 6) {
-                displayInventory(userInput);
+                displayInventory();
                 selection = 0;
             }
         }
