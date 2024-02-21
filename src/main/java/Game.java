@@ -137,6 +137,7 @@ public class Game {
         playerStats.setSpeed(1);
 
         playerInventory.setCoin(PlayerConstants.DEFAULT_COIN);
+        playerInventory.addHealthPotion();
 
         if (playerInfo.getRace().equals("human")) {
             playerStats.increaseStamina();
@@ -267,22 +268,14 @@ public class Game {
 
         System.out.println("[ -      stats     - ]");
         System.out.println("xp       " + playerStats.getXp());
-        System.out.println(ConsoleColors.RED + "health   " + playerStats.getHealth() + ConsoleColors.DEFAULT);
+        System.out.println(ConsoleColors.GREEN + "health   " + playerStats.getHealth() + ConsoleColors.DEFAULT);
         System.out.println("attack   " + playerStats.getAttack());
         System.out.println("defense  " + playerStats.getDefense());
         System.out.println("stamina  " + playerStats.getStamina());
         System.out.println("speed    " + playerStats.getSpeed());
         System.out.println("status   " + playerStats.getStatus());
 
-        System.out.println();
-        System.out.println();
-        System.out.println("press enter to exit");
-
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        delayExecutionUntilEnterIsPressed();
     }
 
     public static void displayInventory(Scanner userInput) {
@@ -308,15 +301,7 @@ public class Game {
         System.out.println("[ -       coin     - ]");
         System.out.println("coin     " + playerInventory.getCoin());
 
-        System.out.println();
-        System.out.println();
-        System.out.println("press enter to exit");
-
-        try {
-            System.in.read();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        delayExecutionUntilEnterIsPressed();
     }
     public static void displayTreasure() {
         System.out.println();
@@ -351,9 +336,6 @@ public class Game {
 
     public static void gameloop(Scanner userInput) {
         int selection = 0; // default; do nothing with 0
-
-        int tick = 0;
-        boolean gameActive = false;
 
         while (selection == 0) {
             System.out.println();
@@ -392,8 +374,16 @@ public class Game {
         }
     }
 
-    public static void recieve() {
+    public static void delayExecutionUntilEnterIsPressed() {
+        System.out.println();
+        System.out.println();
+        System.out.println("press enter to exit");
 
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main(String[] args) {

@@ -28,18 +28,18 @@ public class EnemyNameGenerator {
     public String getRandomMinorEnemyName() {
         Random random = new Random();
 
-        return minorEnemyNames[random.nextInt(minorEnemyNames.length + 1)];
+        return minorEnemyNames[random.nextInt(minorEnemyNames.length)];
     }
 
     public String getRandomMajorEnemyName() {
         Random random = new Random();
 
-        return majorEnemyNames[random.nextInt(majorEnemyNames.length + 1)];
+        return majorEnemyNames[random.nextInt(majorEnemyNames.length)];
     }
 
     public String getRandomBossEnemyName() {
         Random random = new Random();
 
-        return bossEnemyNames[random.nextInt(bossEnemyNames.length + 1)];
+        return bossEnemyNames[random.nextInt(bossEnemyNames.length)];
     }
 }

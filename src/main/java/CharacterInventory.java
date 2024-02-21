@@ -11,6 +11,22 @@ public class CharacterInventory {
     private final ArrayList<Armor> armor = new ArrayList<>();
     private int coin;
 
+    public void useHealthPotion() {
+        if (this.healthPotions > 0) {
+            this.healthPotions -= 1;
+        }
+    }
+
+    public void addHealthPotion() {
+        this.healthPotions += 1;
+    }
+
+    public int checkPotions() {
+        return this.healthPotions;
+    }
+
+    private int healthPotions;
+
     public Weapon getWeapon() {
         return weapon;
     }

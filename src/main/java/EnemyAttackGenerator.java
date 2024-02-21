@@ -31,18 +31,18 @@ public class EnemyAttackGenerator {
     public String getRandomMinorEnemyAttack() {
         Random random = new Random();
 
-        return minorEnemyAttack[random.nextInt(minorEnemyAttack.length + 1)];
+        return minorEnemyAttack[random.nextInt(minorEnemyAttack.length)];
     }
 
     public String getRandomMajorEnemyAttack() {
         Random random = new Random();
 
-        return majorEnemyAttack[random.nextInt(majorEnemyAttack.length + 1)];
+        return majorEnemyAttack[random.nextInt(majorEnemyAttack.length)];
     }
 
     public String getRandomBossEnemyAttack() {
         Random random = new Random();
 
-        return bossEnemyAttack[random.nextInt(bossEnemyAttack.length + 1)];
+        return bossEnemyAttack[random.nextInt(bossEnemyAttack.length)];
     }
 }

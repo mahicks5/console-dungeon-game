@@ -35,6 +35,14 @@ public class CharacterStats {
         this.health = health;
     }
 
+    public void takeDamage(double amount) {
+        if (amount >= this.health) {
+            this.health = 0.0;
+        } else {
+            this.health -= amount;
+        }
+    }
+
     public int getAttack() {
         return attack;
     }
