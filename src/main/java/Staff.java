@@ -18,6 +18,6 @@ public class Staff extends Weapon {
     }
 
     public double getAttack() {
-        return WeaponConstants.STAFF_BASE_ATTACK + additionalAttack;
+        return WeaponConstants.STAFF_BASE_ATTACK + (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack);
     }
 }

@@ -5,6 +5,16 @@
 public class Alt extends Weapon {
     private String name;
     private double additionalAttack = WeaponConstants.ALT_ADDITIONAL_ATTACK;
+    private int cooldown = 0;
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void decreaseCooldown() {
+        if (this.cooldown != 0) {
+            this.cooldown -= 1;
+        };
+    }
 
     public void setAdditionalAttack(double additionalAttack) {
         this.additionalAttack = additionalAttack;
@@ -19,6 +29,8 @@ public class Alt extends Weapon {
     }
 
     public double getAttack() {
-        return WeaponConstants.ALT_BASE_ATTACK + additionalAttack;
+        cooldown = WeaponConstants.ALT_COOLDOWN;
+
+        return WeaponConstants.ALT_BASE_ATTACK + (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack);
     }
 }

@@ -55,7 +55,10 @@ public class CharacterInventory {
         return coin;
     }
 
-    public void setCoin(int coin) {
-        this.coin = coin;
+    public void addCoin(int amount) {
+        this.coin += amount;
+    }
+    public void spendCoin(int amount) {
+        this.coin -= amount;
     }
 }

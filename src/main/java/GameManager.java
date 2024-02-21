@@ -22,8 +22,6 @@ public class GameManager implements GameMediator {
         if (sender.getClass().equals(Character.class) && event.equals("init health")) {
             Character player = (Character) sender;
 
-            CharacterInfo info = player.getCharacterInfo();
-
             CharacterStats stats = player.getCharacterStats();
 
 
@@ -36,21 +34,15 @@ public class GameManager implements GameMediator {
             stats.setHealth(health);
         }
 
-        // notifies game manager to update player health
-        if (sender.getClass().equals(Character.class) && event.equals("update health")) {
-
-        }
-
         if (sender.getClass().equals(Character.class) && event.equals("enter dungeon")) {
             DungeonManager.displayDanger();
             DungeonManager.displayDungeonTitle();
             DungeonManager.dungeonLoop();
         }
 
-        // notifies game manager to update enemy health
-//        if (sender.getClass().equals(Character.class) && event.equals("update health")) {
-//
-//        }
+        if (sender.getClass().equals(Character.class) && event.equals("leave dungeon")) {
+            // TODO leave
+        }
     }
 
     @Override

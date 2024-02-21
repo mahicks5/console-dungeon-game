@@ -35,6 +35,10 @@ public class DungeonManager {
         }
     }
 
+    public static int getDepth() {
+        return depth;
+    }
+
     public static void displayDanger() {
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
@@ -62,17 +66,19 @@ public class DungeonManager {
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(,.*,. ,#(##&@&&&&&%%%#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%..,*(((/%&&@%(%%&#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@& .,*/((%%%%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println("----------------------------------------------------------------------------------------------------");
+
+        delayExecutionUntilEnterIsPressed();
     }
 
     public static void displayDungeonTitle() {
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println("[ --                                           Dungeon                                          -- ]");
-        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("[ -- dungeon                                                                                    -- ]");
     }
 
     public static void displayDungeonInfo() {
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println(ConsoleColors.RED + depth + ConsoleColors.DEFAULT + " layers below the surface");
         System.out.println("active event: " + ConsoleColors.YELLOW + active_event + ConsoleColors.DEFAULT);
         System.out.println();
@@ -158,14 +164,22 @@ public class DungeonManager {
     public static void promptPlayerMove() {
         Scanner userInput = new Scanner(System.in);
 
+        CharacterStats characterStats = Game.getPlayer().getCharacterStats();
         CharacterInventory characterInventory = Game.getPlayer().getCharacterInventory();
 
         int selection = 0; // default; do nothing with 0
 
+        boolean altReady;
+        boolean potions_enabled = false;
+        boolean flee_enabled = false;
+
+        altReady = characterInventory.getAlt().getCooldown() == 0;
+
         boolean invalidChoice = false;
 
+
         while (selection == 0) {
-            if (invalidChoice == false) {
+            if (!invalidChoice) {
                 System.out.println("make a choice");
             } else {
                 System.out.println("invalid choice. please choose again");
@@ -175,16 +189,36 @@ public class DungeonManager {
                     "1.) use " +
                     ConsoleColors.BLUE + characterInventory.getWeapon().getName() + ConsoleColors.DEFAULT
             );
-            System.out.println(
-                    "2.) use " +
-                            ConsoleColors.BLUE + characterInventory.getAlt().getName() + ConsoleColors.DEFAULT
-            );
+            if (altReady) {
+                System.out.println(
+                        "2.) use " +
+                                ConsoleColors.BLUE + characterInventory.getAlt().getName() + ConsoleColors.DEFAULT
+                );
+            }
 
             if (characterInventory.checkPotions() > 0) {
+                potions_enabled = true;
+
                 System.out.println("3.) health potion (" + characterInventory.checkPotions() + " remaining)");
             }
 
-            selection = userInput.nextInt();
+            if ((depth % 10) == 0) {
+                flee_enabled = true;
+
+                System.out.println("4.) flee");
+            }
+
+            int choice = userInput.nextInt();
+
+            if ((choice == 2) && (!altReady)) {
+                invalidChoice = true;
+            } else if ((choice == 3) && (!potions_enabled)) {
+                invalidChoice = true;
+            } else if ((choice == 4) && (!flee_enabled)) {
+                invalidChoice = true;
+            } else {
+                selection = choice;
+            }
         }
 
         if (selection == 1) {
@@ -262,7 +296,7 @@ public class DungeonManager {
             System.out.println();
         }
 
-        if (selection == 2) {
+        if ((selection == 2) && (altReady)) {
             // attack with alt
             // begin critical and miss modifiers
             RNG rng = new RNG();
@@ -337,9 +371,19 @@ public class DungeonManager {
             System.out.println();
         }
 
-        if (selection == 3) {
-            // use potion
+        if ((selection == 3) && (potions_enabled)) {
+            characterInventory.useHealthPotion();
+            characterStats.heal();
         }
+
+        if ((selection == 4) && (flee_enabled)) {
+            battle_active = false;
+            turn = 1;
+
+            Game.gameloop(new Scanner(System.in));
+        }
+
+        characterInventory.getAlt().decreaseCooldown();
     }
 
     public static void computerMove() {
@@ -438,25 +482,79 @@ public class DungeonManager {
         System.out.println();
     }
 
+    public static void rewardPlayer() {
+        CharacterStats characterStats = Game.getPlayer().getCharacterStats();
+        CharacterInventory characterInventory = Game.getPlayer().getCharacterInventory();
+
+        int coin = DungeonConstants.DEFAULT_COIN_REWARD + (depth * DungeonConstants.DEPTH_COIN_BONUS);
+        int xp = DungeonConstants.DEFAULT_XP_REWARD + (depth * DungeonConstants.DEPTH_XP_BONUS);
+
+        if (active_event.equals(Events.event1)) {
+            coin *= EventConstants.BONUS_COINS;
+        }
+
+        if (active_event.equals(Events.event2)) {
+            xp *= EventConstants.BONUS_XP;
+        }
+
+        System.out.println();
+        System.out.println(
+                "you have been awarded " +
+                        ConsoleColors.YELLOW + coin + ConsoleColors.DEFAULT +
+                        " coin and " +
+                        ConsoleColors.YELLOW + xp + ConsoleColors.DEFAULT +
+                        " xp"
+        );
+
+        characterInventory.addCoin(coin);
+        characterStats.addXp(xp);
+
+        delayExecutionUntilEnterIsPressed();
+
+        RNG rng = new RNG();
+
+        boolean chance = rng.roll(DungeonConstants.DEFAULT_BONUS_CHEST_CHANCE);
+
+        if (chance) {
+            openTreasure();
+        }
+
+        descend();
+
+        dungeonLoop();
+    }
+
     public static void determineWinner() {
         System.out.println();
 
         if (Game.getPlayer().getCharacterStats().getHealth() > 0) {
             System.out.println(
                     ConsoleColors.GREEN + Game.getPlayer().getCharacterInfo().getName() + ConsoleColors.DEFAULT +
-                            " has conquered");
+                            " has won");
+
+            // reward player
+            rewardPlayer();
         } else if (Game.getPlayer().getCharacterStats().getHealth() == 0) {
             System.out.println(
                     "you have met your fate. " +
                     ConsoleColors.RED + enemy.getName() + ConsoleColors.DEFAULT +
-                    " has conquered"
+                    " has won"
             );
-        }
 
-        delayExecutionUntilEnterIsPressed();
+            int lostCoin = (depth * DungeonConstants.DEFAULT_COIN_LOSS_MULTIPLIER);
+
+            System.out.println();
+            System.out.println(
+                    "you lost " +
+                            ConsoleColors.YELLOW + lostCoin + ConsoleColors.DEFAULT +
+                            " coin"
+            );
+
+            Game.gameloop(new Scanner(System.in));
+        }
     }
 
-    public static void displayTreasure() {
+    public static void openTreasure() {
         System.out.println();
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
@@ -487,12 +585,38 @@ public class DungeonManager {
         System.out.println("ooh! look! you found treasure!");
 
         delayExecutionUntilEnterIsPressed();
+
+        CharacterInventory characterInventory = Game.getPlayer().getCharacterInventory();
+
+        int coin = DungeonConstants.DEFAULT_CHEST_REWARD + (depth * DungeonConstants.DEPTH_COIN_BONUS);
+        int potions = (new Random()).nextInt(DungeonConstants.MAX_CHEST_POTIONS + 1);
+
+        if (active_event.equals(Events.event1)) {
+            coin *= EventConstants.BONUS_COINS;
+        }
+
+        characterInventory.addCoin(coin);
+
+        for (int i = 0; i < potions; i++){
+            characterInventory.addHealthPotion();
+        }
+
+        System.out.println();
+        System.out.println(
+                "you found " +
+                        ConsoleColors.YELLOW + coin + ConsoleColors.DEFAULT +
+                        " coin and " +
+                        ConsoleColors.YELLOW + potions + ConsoleColors.DEFAULT +
+                        " potions"
+        );
+
+        delayExecutionUntilEnterIsPressed();
     }
 
     public static void delayExecutionUntilEnterIsPressed() {
         System.out.println();
         System.out.println();
-        System.out.println("press enter to continue");
+        System.out.println("[ - press enter to continue                                                                      - ]");
 
         try {
             System.in.read();
@@ -540,12 +664,9 @@ public class DungeonManager {
             System.out.println("----------------------------------------------------------------------------------------------------");
         }
 
-        // determine winner
+        // determine winner and end battle
         displayHealthStats();
         determineWinner();
-
-        // end the battle
-        descend();
     }
 
     public static void dungeonLoop() {
