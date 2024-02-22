@@ -76,15 +76,15 @@ public class TestSuite {
 
         assertEquals(swordTest.getBaseAttack(), WeaponConstants.SWORD_BASE_ATTACK, 0.0);
         assertEquals(swordTest.getAdditionalAttack(), WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK, 0.0);
-        assertEquals(10.0, WeaponConstants.SWORD_BASE_ATTACK, 0.0);
+        assertEquals(14.0, swordTest.getAttack(), 0.0);
 
         assertEquals(staffTest.getBaseAttack(), WeaponConstants.STAFF_BASE_ATTACK, 0.0);
         assertEquals(staffTest.getAdditionalAttack(), WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK, 0.0);
-        assertEquals(11.0, WeaponConstants.STAFF_BASE_ATTACK, 0.0);
+        assertEquals(15.0, staffTest.getAttack(), 0.0);
 
         assertEquals(bowTest.getBaseAttack(), WeaponConstants.BOW_BASE_ATTACK, 0.0);
         assertEquals(bowTest.getAdditionalAttack(), WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK, 0.0);
-        assertEquals(9.0, WeaponConstants.BOW_BASE_ATTACK, 0.0);
+        assertEquals(13.0, bowTest.getAttack(), 0.0);
     }
 
     @Test
