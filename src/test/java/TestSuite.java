@@ -151,7 +151,6 @@ public class TestSuite {
         assertEquals(2, player.getCharacterStats().getSpeed());
     }
 
-
     @Test
     public void testCharacterInventory() {
         CharacterInventory characterInventory = player.getCharacterInventory();
@@ -237,7 +236,6 @@ public class TestSuite {
         assertEquals(0.0, testBossEnemy.getHealth(), 0.0);
     }
 
-    // not sure how to test this one as it generates random results
     @Test
     public void testEnemyAttackGenerator() {
         int RESULTS = 300;
@@ -263,7 +261,6 @@ public class TestSuite {
         }
     }
 
-    // same as above
     @Test
     public void testRNG() {
         int RESULTS = 10000;
@@ -305,7 +302,6 @@ public class TestSuite {
         DungeonManager.displayDungeonInfo();
         DungeonManager.initBattle();
         DungeonManager.displayHealthStats();
-//        DungeonManager.battleLoop();
         DungeonManager.openTreasure();
 
         assertEquals(1, DungeonManager.getDepth());
@@ -352,5 +348,49 @@ public class TestSuite {
         Assert.assertNotNull(testBootArmor);
         assertEquals("test boots", testBootArmor.getName());
         assertEquals(1.0, testBootArmor.getResistance(), 0.0);
+    }
+
+    @Test
+    public void testCharacterClass() {
+        String name = "player1";
+        String race = "human";
+        String role = "knight";
+
+        player = new Character();
+
+        Game.setPlayer(player);
+        CharacterInfo playerInfo = player.getCharacterInfo();
+
+        playerInfo.setName(name);
+        playerInfo.setRace(race);
+        playerInfo.setRole(role);
+
+        Game.buildStarterCharacter();
+
+        name = "player1";
+        race = "orc";
+        role = "hunter";
+
+        player = new Character();
+
+        Game.setPlayer(player);
+        playerInfo = player.getCharacterInfo();
+
+        playerInfo.setName(name);
+        playerInfo.setRace(race);
+        playerInfo.setRole(role);
+
+        name = "player1";
+        race = "elf";
+        role = "wizard";
+
+        player = new Character();
+
+        Game.setPlayer(player);
+        playerInfo = player.getCharacterInfo();
+
+        playerInfo.setName(name);
+        playerInfo.setRace(race);
+        playerInfo.setRole(role);
     }
 }
