@@ -7,17 +7,11 @@
 
 public class GameManager implements GameMediator {
     GameManager manager;
-    boolean player_init = false;
 
     public GameManager() { }
 
     @Override
     public void alert(Object sender, String event) {
-        // notifies game manager when the player is initialized
-        if (sender.getClass().equals(Character.class) && event.equals("player init")) {
-            player_init = true;
-        }
-
         // notifies game manager to initialize player health
         if (sender.getClass().equals(Character.class) && event.equals("init health")) {
             Character player = (Character) sender;
@@ -26,16 +20,22 @@ public class GameManager implements GameMediator {
 
 
             double health = (
-                PlayerConstants.BASE_HEALTH +
-                        (stats.getDefense() * PlayerConstants.DEFENSE_BONUS) +
-                        (stats.getLevel() * PlayerConstants.LEVEL_BONUS)
+                PlayerConstants.BASE_HEALTH
+                        + (
+                                stats.getDefense()
+                                        * PlayerConstants.DEFENSE_BONUS
+                )
+                        + (
+                                stats.getLevel()
+                                        * PlayerConstants.LEVEL_BONUS
+                )
             );
 
             stats.setHealth(health);
         }
 
         if (sender.getClass().equals(Character.class) && event.equals("enter dungeon")) {
-            DungeonManager.displayDanger();
+            DungeonManager.displaySkull();
             DungeonManager.displayDungeonTitle();
             DungeonManager.dungeonLoop();
         }

@@ -1,5 +1,6 @@
 /**
- * PlayerConstants.java interface that defines some constants for the player. Allows for easy customization.
+ * PlayerConstants.java interface that defines some constants for the player.
+ * Allows for easy customization.
  * */
 
 public interface PlayerConstants {

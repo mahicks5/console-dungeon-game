@@ -12,7 +12,7 @@ public class TestSuite {
     ArmorFactory armorFactory;
     EnemyFactory enemyFactory;
     EnemyAttackGenerator enemyAttackGenerator;
-    RNG rng;
+    Dice dice;
     Character player;
 
     @Before
@@ -22,7 +22,7 @@ public class TestSuite {
         armorFactory = new ArmorFactory();
         enemyFactory = new EnemyFactory();
         enemyAttackGenerator = new EnemyAttackGenerator();
-        rng = new RNG();
+        dice = new Dice();
 
         // create a test player
         String name = "player1";
@@ -163,11 +163,11 @@ public class TestSuite {
         assertEquals(100, characterInventory.getCoin());
 
 
-        assertEquals(0, characterInventory.checkAntidotes());
+        assertEquals(0, characterInventory.getAntidotes());
         characterInventory.addAntidotesPotion();
-        assertEquals(1, characterInventory.checkAntidotes());
+        assertEquals(1, characterInventory.getAntidotes());
         characterInventory.useAntidotePotion();
-        assertEquals(0, characterInventory.checkAntidotes());
+        assertEquals(0, characterInventory.getAntidotes());
 
         assertEquals(0, characterInventory.checkTome(1));
         characterInventory.addTome(1);
@@ -277,7 +277,7 @@ public class TestSuite {
         double pFalse;
 
         for (int i = 0; i < RESULTS; i++) {
-            boolean roll = rng.roll(CHANCE);
+            boolean roll = dice.roll(CHANCE);
 
             if (roll) {
                 timesTrue++;
@@ -299,7 +299,7 @@ public class TestSuite {
 
     @Test
     public void testDungeonManager() {
-        DungeonManager.displayDanger();
+        DungeonManager.displaySkull();
         DungeonManager.generateLayer();
         DungeonManager.displayDungeonTitle();
         DungeonManager.displayDungeonInfo();

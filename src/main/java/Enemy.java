@@ -1,3 +1,7 @@
+/**
+ * Enemy.java
+ * Class representing an enemy character. */
+
 public class Enemy {
     private String name;
     private String attackName;
@@ -36,6 +40,8 @@ public class Enemy {
         this.health = health;
     }
 
+    /**
+     * Take damage. */
     public void takeDamage(double amount) {
         if (amount >= this.health) {
             this.health = 0.0;

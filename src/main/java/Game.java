@@ -1,7 +1,6 @@
 /**
  * Game.java main game class
- * This runs the game and hold the logic for navigating the game
- * */
+ * This runs the game and hold the logic for navigating the game */
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +18,8 @@ public class Game {
         return player;
     }
 
+    /**
+     * Displays an intro message. */
     public static void introMessage() {
         // let's clear some space :)
         System.out.println();
@@ -31,6 +32,8 @@ public class Game {
         System.out.println("----------------------------------------------------------------------------------------------------");
     }
 
+    /**
+     * Prompts the player with all they need to create a new character. */
     public static void promptCreateCharacter(Scanner userInput) {
         String name;
         String race;
@@ -126,8 +129,7 @@ public class Game {
     }
 
     /**
-     * build the player's default character based off of what they chose for their race and role
-     * */
+     * build the player's default character based off of what they chose for their race and role. */
     public static void buildStarterCharacter() {
         CharacterInfo playerInfo = player.getCharacterInfo();
         CharacterStats playerStats = player.getCharacterStats();
@@ -262,19 +264,19 @@ public class Game {
         }
 
         if (playerInfo.getName().equals("devmaxwell")) {
-            int MAX_STAT = 50000;
-            int MAX_COIN = 999999999;
-            int MAXIMUM_ITEM_AMOUNT = 999;
+            int maxStat = 50000;
+            int maxCoin = 999999999;
+            int maxItemAmount = 999;
 
-            playerStats.setHealth(MAX_STAT);
-            playerStats.setAttack(MAX_STAT);
-            playerStats.setDefense(MAX_STAT);
-            playerStats.setSpeed(MAX_STAT);
-            playerStats.setStamina(MAX_STAT);
+            playerStats.setHealth(maxStat);
+            playerStats.setAttack(maxStat);
+            playerStats.setDefense(maxStat);
+            playerStats.setSpeed(maxStat);
+            playerStats.setStamina(maxStat);
 
-            playerInventory.addCoin(MAX_COIN);
+            playerInventory.addCoin(maxCoin);
 
-            for (int i = 0; i < MAXIMUM_ITEM_AMOUNT; i++) {
+            for (int i = 0; i < maxItemAmount; i++) {
                 playerInventory.addHealthPotion();
                 playerInventory.addAntidotesPotion();
                 playerInventory.addTome(1);
@@ -283,6 +285,9 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Displays the player's character's information. */
     public static void displayCharacterInfo() {
         CharacterInfo playerInfo = player.getCharacterInfo();
 
@@ -291,16 +296,25 @@ public class Game {
         System.out.println("[ -- information                                                                                -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println(
-                ConsoleColors.GREEN +
-                "name                                              " +
-                        playerInfo.getName() +
-                        ConsoleColors.DEFAULT
+                ConsoleColors.GREEN
+                        + "name                                              "
+                        + playerInfo.getName()
+                        + ConsoleColors.DEFAULT
         );
-        System.out.println("race                                              " + playerInfo.getRace());
-        System.out.println("role                                              " + playerInfo.getRole());
+        System.out.println(
+                "race                                              "
+                + playerInfo.getRace()
+        );
+        System.out.println(
+                "role                                              "
+                        + playerInfo.getRole()
+        );
 
         delayExecutionUntilEnterIsPressed();
     }
+
+    /**
+     * Displays the player's character's stats. */
     public static void displayCharacterStats() {
         CharacterStats playerStats = player.getCharacterStats();
 
@@ -308,27 +322,57 @@ public class Game {
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ -- stats                                                                                      -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println("level                                             " + playerStats.getLevel());
-        System.out.println("xp                                                " + playerStats.getXp());
+        System.out.println(
+                "level                                             "
+                + playerStats.getLevel()
+        );
+        System.out.println(
+                "xp                                                "
+                + playerStats.getXp()
+        );
         System.out.println();
 
-        System.out.println("stat pts " + playerStats.getStatPoints());
+        System.out.println(
+                "stat pts "
+                + playerStats.getStatPoints()
+        );
         System.out.println();
 
-        System.out.println(ConsoleColors.GREEN + "health                                            " + playerStats.getHealth() + ConsoleColors.DEFAULT);
+        System.out.println(ConsoleColors.GREEN
+                + "health                                            "
+                + playerStats.getHealth()
+                + ConsoleColors.DEFAULT
+        );
         System.out.println();
 
-        System.out.println("attack                                            " + playerStats.getAttack());
-        System.out.println("defense                                           " + playerStats.getDefense());
-        System.out.println("stamina                                           " + playerStats.getStamina());
-        System.out.println("speed                                             " + playerStats.getSpeed());
+        System.out.println(
+                "attack                                            "
+                + playerStats.getAttack()
+        );
+        System.out.println(
+                "defense                                           "
+                + playerStats.getDefense()
+        );
+        System.out.println(
+                "stamina                                           "
+                + playerStats.getStamina()
+        );
+        System.out.println(
+                "speed                                             "
+                + playerStats.getSpeed()
+        );
         System.out.println();
 
-        System.out.println("status                                            " + playerStats.getStatus());
+        System.out.println(
+                "status                                            "
+                + playerStats.getStatus()
+        );
 
         delayExecutionUntilEnterIsPressed();
     }
 
+    /**
+     * Displays the stat upgrade screen. */
     public static void displayStatUpgradeScreen(Scanner userInput) {
         CharacterStats playerStats = player.getCharacterStats();
 
@@ -344,10 +388,22 @@ public class Game {
             System.out.println();
 
             System.out.println("[ - stats                                                                                        - ]");
-            System.out.println("attack                                            " + playerStats.getAttack());
-            System.out.println("defense                                           " + playerStats.getDefense());
-            System.out.println("stamina                                           " + playerStats.getStamina());
-            System.out.println("speed                                             " + playerStats.getSpeed());
+            System.out.println(
+                    "attack                                            "
+                    + playerStats.getAttack()
+            );
+            System.out.println(
+                    "defense                                           "
+                    + playerStats.getDefense()
+            );
+            System.out.println(
+                    "stamina                                           "
+                    + playerStats.getStamina()
+            );
+            System.out.println(
+                    "speed                                             "
+                    + playerStats.getSpeed()
+            );
 
             System.out.println();
             System.out.println("1.) attack");
@@ -431,6 +487,8 @@ public class Game {
         }
     }
 
+    /**
+     * Displays the player's inventory. */
     public static void displayInventory() {
         CharacterInventory playerInventory = player.getCharacterInventory();
 
@@ -439,11 +497,19 @@ public class Game {
         System.out.println("[ -- inventory                                                                                  -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ - weapon                                                                                       - ]");
-        System.out.println(ConsoleColors.BLUE + playerInventory.getWeapon().getName() + ConsoleColors.DEFAULT);
+        System.out.println(
+                ConsoleColors.BLUE
+                        + playerInventory.getWeapon().getName()
+                        + ConsoleColors.DEFAULT
+        );
         System.out.println();
 
         System.out.println("[ - alt                                                                                          - ]");
-        System.out.println(ConsoleColors.BLUE + playerInventory.getAlt().getName() + ConsoleColors.DEFAULT);
+        System.out.println(
+                ConsoleColors.BLUE
+                        + playerInventory.getAlt().getName()
+                        + ConsoleColors.DEFAULT
+        );
         System.out.println();
 
         System.out.println("[ - armor                                                                                        - ]");
@@ -451,49 +517,54 @@ public class Game {
 
         for (Armor piece : armor) {
             System.out.println(
-                    ConsoleColors.BLUE +
-                    piece.getName() +
-                            ConsoleColors.DEFAULT
+                    ConsoleColors.BLUE
+                            + piece.getName()
+                            + ConsoleColors.DEFAULT
             );
         }
         System.out.println();
 
         System.out.println("[ - coin                                                                                         - ]");
         System.out.println(
-                ConsoleColors.YELLOW + playerInventory.getCoin() + ConsoleColors.DEFAULT
+                ConsoleColors.YELLOW
+                        + playerInventory.getCoin()
+                        + ConsoleColors.DEFAULT
         );
         System.out.println();
 
         System.out.println("[ - potions                                                                                      - ]");
         System.out.println(
-                ConsoleColors.BLUE +
-                "health potions                                    " +
-                        playerInventory.checkHealthPotions() +
-                        ConsoleColors.DEFAULT
+                ConsoleColors.BLUE
+                        + "health potions                                    "
+                        + playerInventory.getHealthPotions()
+                        + ConsoleColors.DEFAULT
         );
         System.out.println(
-                ConsoleColors.BLUE +
-                "antidotes                                         " +
-                        playerInventory.checkAntidotes() +
-                        ConsoleColors.DEFAULT
+                ConsoleColors.BLUE
+                        + "antidotes                                         "
+                        + playerInventory.getAntidotes()
+                        + ConsoleColors.DEFAULT
         );
         System.out.println();
 
         System.out.println("[ - spell tomes                                                                                  - ]");
         System.out.println(
-                ConsoleColors.BLUE +
-                "tome of banishment                                " + playerInventory.checkTome(1) +
-                        ConsoleColors.DEFAULT
+                ConsoleColors.BLUE
+                        + "tome of banishment                                "
+                        + playerInventory.checkTome(1)
+                        + ConsoleColors.DEFAULT
         );
         System.out.println(
-                ConsoleColors.BLUE +
-                "tome of wealth                                    " + playerInventory.checkTome(2) +
-                        ConsoleColors.DEFAULT
+                ConsoleColors.BLUE
+                        + "tome of wealth                                    "
+                        + playerInventory.checkTome(2)
+                        + ConsoleColors.DEFAULT
         );
         System.out.println(
-                ConsoleColors.BLUE +
-                "tome of blessing                                  " + playerInventory.checkTome(3) +
-                        ConsoleColors.DEFAULT
+                ConsoleColors.BLUE
+                        + "tome of blessing                                  "
+                        + playerInventory.checkTome(3)
+                        + ConsoleColors.DEFAULT
         );
         System.out.println();
 
@@ -514,18 +585,47 @@ public class Game {
             System.out.println();
 
             System.out.println("[ - potions                                                                                      - ]");
-            System.out.println("1.) health potion        " + ConsoleColors.YELLOW + ShopConstants.HEALTH_POTION_COST + ConsoleColors.DEFAULT);
-            System.out.println("2.) antidote             " + ConsoleColors.YELLOW + ShopConstants.ANTIDOTE_POTION_COST + ConsoleColors.DEFAULT);
+            System.out.println(
+                    "1.) health potion        "
+                    + ConsoleColors.YELLOW
+                    + ShopConstants.HEALTH_POTION_COST
+                    + ConsoleColors.DEFAULT
+            );
+            System.out.println(
+                    "2.) antidote             "
+                    + ConsoleColors.YELLOW
+                    + ShopConstants.ANTIDOTE_POTION_COST
+                    + ConsoleColors.DEFAULT
+            );
             System.out.println();
 
             System.out.println("[ - spell tomes                                                                                  - ]");
-            System.out.println("3.) tome of banishment   " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_BANISHMENT_COST + ConsoleColors.DEFAULT);
-            System.out.println("4.) tome of wealth       " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_WEALTH_COST + ConsoleColors.DEFAULT);
-            System.out.println("5.) tome of blessing     " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_BLESSING + ConsoleColors.DEFAULT);
+            System.out.println(
+                    "3.) tome of banishment   "
+                    + ConsoleColors.YELLOW
+                    + ShopConstants.TOME_OF_BANISHMENT_COST
+                    + ConsoleColors.DEFAULT
+            );
+            System.out.println(
+                    "4.) tome of wealth       "
+                            + ConsoleColors.YELLOW
+                            + ShopConstants.TOME_OF_WEALTH_COST
+                            + ConsoleColors.DEFAULT
+            );
+            System.out.println(
+                    "5.) tome of blessing     "
+                            + ConsoleColors.YELLOW
+                            + ShopConstants.TOME_OF_BLESSING
+                            + ConsoleColors.DEFAULT
+            );
             System.out.println();
 
             System.out.println("[ - coins                                                                                        - ]");
-            System.out.println(ConsoleColors.YELLOW + playerInventory.getCoin() + ConsoleColors.DEFAULT);
+            System.out.println(
+                    ConsoleColors.YELLOW
+                    + playerInventory.getCoin()
+                    + ConsoleColors.DEFAULT
+            );
             System.out.println();
 
             System.out.println("6.) exit shop");
@@ -622,6 +722,8 @@ public class Game {
         delayExecutionUntilEnterIsPressed();
     }
 
+    /**
+     * Controls the leveling up process. */
     public static void compoundLevels() {
         CharacterStats characterStats = player.getCharacterStats();
 
@@ -647,6 +749,8 @@ public class Game {
         }
     }
 
+    /**
+     * main game loop. */
     public static void gameloop(Scanner userInput) {
         int selection = 0;
 
@@ -701,6 +805,8 @@ public class Game {
         }
     }
 
+    /**
+     * delays execution until enter is pressed. */
     public static void delayExecutionUntilEnterIsPressed() {
         System.out.println();
         System.out.println();
@@ -713,6 +819,8 @@ public class Game {
         }
     }
 
+    /**
+     * Where the game in launched through. It all starts here. */
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
 

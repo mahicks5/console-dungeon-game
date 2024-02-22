@@ -17,15 +17,24 @@ public class Sword extends Weapon {
         return additionalAttack;
     }
 
+    /**
+     * Gets the attack power of the weapon.
+     * @return attack power */
     public double getAttack() {
         if (Game.getPlayer() == null) {
             return WeaponConstants.SWORD_BASE_ATTACK;
         }
 
         return (
-                WeaponConstants.SWORD_BASE_ATTACK +
-                        (Game.getPlayer().getCharacterStats().getAttack() * WeaponConstants.ATTACK_STAT_BONUS) +
-                        (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack)
-        );
+                WeaponConstants.SWORD_BASE_ATTACK
+                        + (
+                                Game.getPlayer().getCharacterStats().getAttack()
+                                        * WeaponConstants.ATTACK_STAT_BONUS
+                )
+                        + (
+                                Game.getPlayer().getCharacterStats().getLevel()
+                                        * additionalAttack
+                )
+            );
     }
 }

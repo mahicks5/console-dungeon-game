@@ -17,15 +17,24 @@ public class Bow extends Weapon {
         return additionalAttack;
     }
 
+    /**
+     * Gets the attack of the weapon.
+     * @return attack power */
     public double getAttack() {
         if (Game.getPlayer() == null) {
             return WeaponConstants.BOW_BASE_ATTACK;
         }
 
         return (
-                WeaponConstants.BOW_BASE_ATTACK +
-                (Game.getPlayer().getCharacterStats().getAttack() * WeaponConstants.ATTACK_STAT_BONUS) +
-                (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack)
-        );
+                WeaponConstants.BOW_BASE_ATTACK
+                        + (
+                                Game.getPlayer().getCharacterStats().getAttack()
+                                        * WeaponConstants.ATTACK_STAT_BONUS
+                )
+                        + (
+                                Game.getPlayer().getCharacterStats().getLevel()
+                                        * additionalAttack
+                )
+            );
     }
 }

@@ -1,9 +1,13 @@
+/**
+ * Armor.java
+ * Template for armor. */
+
 public abstract class Armor implements ArmorTemplate {
     private String name;
     private double resistance;
 
     /**
-     * set armor name
+     * set armor name.
      * @param name name of the armor piece
      */
     @Override
@@ -12,7 +16,7 @@ public abstract class Armor implements ArmorTemplate {
     }
 
     /**
-     * get weapon name
+     * get weapon name.
      * @return name of the armor piece
      */
     @Override
@@ -21,7 +25,7 @@ public abstract class Armor implements ArmorTemplate {
     }
 
     /**
-     * set the additional attack
+     * set the additional attack.
      * @param resistance the resistance of an armor piece
      */
     @Override
@@ -30,8 +34,8 @@ public abstract class Armor implements ArmorTemplate {
     }
 
     /**
-     * get the base attack
-     * @return base attack of the weapon
+     * get the base resistance.
+     * @return resistance of the armor piece
      */
     @Override
     public double getResistance() {

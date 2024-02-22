@@ -1,6 +1,9 @@
 import java.util.Random;
 
-public class RNG {
+public class Dice {
+    /**
+     * Simulates a roll of a die with the given chance.
+     * @param chance the percentage chance */
     public boolean roll(double chance) {
         Random random = new Random();
 

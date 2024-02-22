@@ -1,6 +1,5 @@
 /**
- * CharacterInventory.java class that holds the character inventory
- * */
+ * CharacterInventory.java class that holds the character inventory. */
 
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ public class CharacterInventory {
     private int tomeOfWealth = 0;
     private int tomeOfBlessing = 0;
 
-    public int checkHealthPotions() {
+    public int getHealthPotions() {
         return this.healthPotions;
     }
 
@@ -23,26 +22,38 @@ public class CharacterInventory {
         this.healthPotions += 1;
     }
 
+    /**
+     * Consumes a health potion. */
     public void useHealthPotion() {
         if (this.healthPotions > 0) {
             this.healthPotions -= 1;
         }
     }
 
-    public int checkAntidotes() {
+    /**
+     * Returns the amount of antidotes the player has.
+     * @return antidotes */
+    public int getAntidotes() {
         return this.antidotes;
     }
 
+    /**
+     * Adds an antidote. */
     public void addAntidotesPotion() {
         this.antidotes += 1;
     }
 
+    /**
+     * Consumes an antidote. */
     public void useAntidotePotion() {
         if (this.antidotes > 0) {
             this.antidotes -= 1;
         }
     }
 
+    /**
+     * Checks if the player has enough of the requested tome.
+     * @return quantity of requested tome. */
     public int checkTome(int choice) {
         if (choice == 1) {
             return this.tomeOfBanishment;
@@ -55,6 +66,8 @@ public class CharacterInventory {
         return 0;
     }
 
+    /**
+     * Adds requested tome to inventory. */
     public void addTome(int choice) {
         if (choice == 1) {
             this.tomeOfBanishment++;
@@ -65,6 +78,8 @@ public class CharacterInventory {
         }
     }
 
+    /**
+     * Uses the requested tome. */
     public void useTome(int choice) {
         if ((choice == 1) && (this.tomeOfBanishment > 0)) {
             this.tomeOfBanishment--;
@@ -74,7 +89,6 @@ public class CharacterInventory {
             this.tomeOfBlessing--;
         }
     }
-
 
     public Weapon getWeapon() {
         return weapon;
@@ -107,6 +121,7 @@ public class CharacterInventory {
     public void addCoin(int amount) {
         this.coin += amount;
     }
+
     public void spendCoin(int amount) {
         this.coin -= amount;
     }

@@ -4,5 +4,6 @@
 
 public interface GameMediator {
     void alert(Object sender, String event);
+
     GameManager getGameManager();
 }

@@ -1,6 +1,5 @@
 /**
- * CharacterStats.java class that holds the character's stats
- * */
+ * CharacterStats.java class that holds the character's stats */
 public class CharacterStats {
     private int level;
     private int xp;
@@ -40,6 +39,7 @@ public class CharacterStats {
     public void addXp(int xp) {
         this.xp += xp;
     }
+
     public void consumeXp() {
         this.xp = 0;
     }
@@ -52,14 +52,24 @@ public class CharacterStats {
         this.health = health;
     }
 
+    /**
+     * Heals the player's health. */
     public void heal() {
         health = (
-                PlayerConstants.BASE_HEALTH +
-                        (defense * PlayerConstants.DEFENSE_BONUS) +
-                        (level * PlayerConstants.LEVEL_BONUS)
-        );
+                PlayerConstants.BASE_HEALTH
+                        + (
+                                defense
+                                        * PlayerConstants.DEFENSE_BONUS
+                )
+                        + (
+                                level
+                                        * PlayerConstants.LEVEL_BONUS
+                )
+            );
     }
 
+    /**
+     * Damages the player by the given amount. */
     public void takeDamage(double amount) {
         if (amount >= this.health) {
             this.health = 0.0;
@@ -107,6 +117,7 @@ public class CharacterStats {
     public void setStatus(String status) {
         this.status = status;
     }
+
     public void increaseAttack() {
         this.attack += 1;
     }
