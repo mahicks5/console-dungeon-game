@@ -340,7 +340,7 @@ public class DungeonManager {
         if (selection == 1) {
             // attack with main
             // begin critical and miss modifiers
-            Dice dice = new Dice();
+            Dice dice = Dice.getDice();
 
             double damage = Game.getPlayer().getCharacterInventory().getWeapon().getAttack();
 
@@ -422,7 +422,7 @@ public class DungeonManager {
         if ((selection == 2) && (altReady)) {
             // attack with alt
             // begin critical and miss modifiers
-            Dice dice = new Dice();
+            Dice dice = Dice.getDice();
 
             double damage = Game.getPlayer().getCharacterInventory().getAlt().getAttack();
 
@@ -594,7 +594,7 @@ public class DungeonManager {
 
 
         // begin critical and miss modifiers
-        Dice dice = new Dice();
+        Dice dice = Dice.getDice();
 
         double damage = enemy.getAttack();
 
@@ -776,7 +776,7 @@ public class DungeonManager {
 
         delayExecutionUntilEnterIsPressed();
 
-        Dice dice = new Dice();
+        Dice dice = Dice.getDice();
 
         boolean chance = dice.roll(DungeonConstants.DEFAULT_BONUS_CHEST_CHANCE);
 

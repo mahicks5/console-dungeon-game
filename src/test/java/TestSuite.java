@@ -22,7 +22,7 @@ public class TestSuite {
         armorFactory = new ArmorFactory();
         enemyFactory = new EnemyFactory();
         enemyAttackGenerator = new EnemyAttackGenerator();
-        dice = new Dice();
+        dice = Dice.getDice();
 
         // create a test player
         String name = "player1";
