@@ -36,6 +36,10 @@ public class Alt extends Weapon {
             return WeaponConstants.ALT_BASE_ATTACK;
         }
 
-        return WeaponConstants.ALT_BASE_ATTACK + (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack);
+        return (
+                WeaponConstants.ALT_ADDITIONAL_ATTACK +
+                        (Game.getPlayer().getCharacterStats().getAttack() * WeaponConstants.ATTACK_STAT_BONUS) +
+                        (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack)
+        );
     }
 }

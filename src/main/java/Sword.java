@@ -22,6 +22,10 @@ public class Sword extends Weapon {
             return WeaponConstants.SWORD_BASE_ATTACK;
         }
 
-        return WeaponConstants.SWORD_BASE_ATTACK + (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack);
+        return (
+                WeaponConstants.SWORD_BASE_ATTACK +
+                        (Game.getPlayer().getCharacterStats().getAttack() * WeaponConstants.ATTACK_STAT_BONUS) +
+                        (Game.getPlayer().getCharacterStats().getLevel() * additionalAttack)
+        );
     }
 }

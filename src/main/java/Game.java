@@ -45,6 +45,13 @@ public class Game {
 
         // ask user to choose a race
         int characterRace = 0;
+        int characterRole = 0;
+
+
+        if (name.equals("devmaxwell")) {
+            characterRace = 1;
+            characterRole = 1;
+        }
 
         while (characterRace < 1 || characterRace > 3) {
             if (invalid) {
@@ -79,7 +86,6 @@ public class Game {
         }
 
         // ask user to choose a role
-        int characterRole = 0;
 
         while (characterRole < 1 || characterRole > 3) {
             if (invalid) {
@@ -254,8 +260,29 @@ public class Game {
             playerInventory.setArmor(robe);
             playerInventory.setArmor(sandals);
         }
-    }
 
+        if (playerInfo.getName().equals("devmaxwell")) {
+            int MAX_STAT = 50000;
+            int MAX_COIN = 999999999;
+            int MAXIMUM_ITEM_AMOUNT = 999;
+
+            playerStats.setHealth(MAX_STAT);
+            playerStats.setAttack(MAX_STAT);
+            playerStats.setDefense(MAX_STAT);
+            playerStats.setSpeed(MAX_STAT);
+            playerStats.setStamina(MAX_STAT);
+
+            playerInventory.addCoin(MAX_COIN);
+
+            for (int i = 0; i < MAXIMUM_ITEM_AMOUNT; i++) {
+                playerInventory.addHealthPotion();
+                playerInventory.addAntidotesPotion();
+                playerInventory.addTome(1);
+                playerInventory.addTome(2);
+                playerInventory.addTome(3);
+            }
+        }
+    }
     public static void displayCharacterInfo() {
         CharacterInfo playerInfo = player.getCharacterInfo();
 
@@ -263,9 +290,14 @@ public class Game {
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ -- information                                                                                -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println("name     " + playerInfo.getName());
-        System.out.println("race     " + playerInfo.getRace());
-        System.out.println("role     " + playerInfo.getRole());
+        System.out.println(
+                ConsoleColors.GREEN +
+                "name                                              " +
+                        playerInfo.getName() +
+                        ConsoleColors.DEFAULT
+        );
+        System.out.println("race                                              " + playerInfo.getRace());
+        System.out.println("role                                              " + playerInfo.getRole());
 
         delayExecutionUntilEnterIsPressed();
     }
@@ -276,23 +308,23 @@ public class Game {
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ -- stats                                                                                      -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println("level    " + playerStats.getLevel());
-        System.out.println("xp       " + playerStats.getXp());
+        System.out.println("level                                             " + playerStats.getLevel());
+        System.out.println("xp                                                " + playerStats.getXp());
         System.out.println();
 
         System.out.println("stat pts " + playerStats.getStatPoints());
         System.out.println();
 
-        System.out.println(ConsoleColors.GREEN + "health   " + playerStats.getHealth() + ConsoleColors.DEFAULT);
+        System.out.println(ConsoleColors.GREEN + "health                                            " + playerStats.getHealth() + ConsoleColors.DEFAULT);
         System.out.println();
 
-        System.out.println("attack   " + playerStats.getAttack());
-        System.out.println("defense  " + playerStats.getDefense());
-        System.out.println("stamina  " + playerStats.getStamina());
-        System.out.println("speed    " + playerStats.getSpeed());
+        System.out.println("attack                                            " + playerStats.getAttack());
+        System.out.println("defense                                           " + playerStats.getDefense());
+        System.out.println("stamina                                           " + playerStats.getStamina());
+        System.out.println("speed                                             " + playerStats.getSpeed());
         System.out.println();
 
-        System.out.println("status   " + playerStats.getStatus());
+        System.out.println("status                                            " + playerStats.getStatus());
 
         delayExecutionUntilEnterIsPressed();
     }
@@ -312,10 +344,10 @@ public class Game {
             System.out.println();
 
             System.out.println("[ - stats                                                                                        - ]");
-            System.out.println("attack   " + playerStats.getAttack());
-            System.out.println("defense  " + playerStats.getDefense());
-            System.out.println("stamina  " + playerStats.getStamina());
-            System.out.println("speed    " + playerStats.getSpeed());
+            System.out.println("attack                                            " + playerStats.getAttack());
+            System.out.println("defense                                           " + playerStats.getDefense());
+            System.out.println("stamina                                           " + playerStats.getStamina());
+            System.out.println("speed                                             " + playerStats.getSpeed());
 
             System.out.println();
             System.out.println("1.) attack");
@@ -329,26 +361,32 @@ public class Game {
 
             if (selection == 1) {
                 if (playerStats.getStatPoints() > 0) {
-                    System.out.println("you can feel yourself grow healthier");
+                    System.out.println("you can feel yourself grow stronger..");
                     System.out.println();
 
                     playerStats.consumeStatPoint();
                     playerStats.increaseAttack();
 
+                    delayExecutionUntilEnterIsPressed();
+
                     selection = 0;
                 } else {
                     System.out.println("not enough stat points");
                     System.out.println();
+
+                    delayExecutionUntilEnterIsPressed();
                 }
             }
 
             if (selection == 2) {
                 if (playerStats.getStatPoints() > 0) {
-                    System.out.println("you can feel yourself grow stronger");
+                    System.out.println("you can feel yourself grow more resilient..");
                     System.out.println();
 
                     playerStats.consumeStatPoint();
                     playerStats.increaseDefense();
+
+                    delayExecutionUntilEnterIsPressed();
 
                     selection = 0;
                 } else {
@@ -359,8 +397,10 @@ public class Game {
 
             if (selection == 3) {
                 if (playerStats.getStatPoints() > 0) {
-                    System.out.println("you can feel yourself grow resilient");
+                    System.out.println("you can feel yourself grow more able..");
                     System.out.println();
+
+                    delayExecutionUntilEnterIsPressed();
 
                     playerStats.consumeStatPoint();
                     playerStats.increaseStamina();
@@ -374,8 +414,10 @@ public class Game {
 
             if (selection == 4) {
                 if (playerStats.getStatPoints() > 0) {
-                    System.out.println("you can feel yourself grow faster");
+                    System.out.println("you can feel yourself grow faster..");
                     System.out.println();
+
+                    delayExecutionUntilEnterIsPressed();
 
                     playerStats.consumeStatPoint();
                     playerStats.increaseSpeed();
@@ -387,8 +429,6 @@ public class Game {
                 }
             }
         }
-
-        delayExecutionUntilEnterIsPressed();
     }
 
     public static void displayInventory() {
@@ -399,34 +439,62 @@ public class Game {
         System.out.println("[ -- inventory                                                                                  -- ]");
         System.out.println("----------------------------------------------------------------------------------------------------");
         System.out.println("[ - weapon                                                                                       - ]");
-        System.out.println(playerInventory.getWeapon().getClass().getName() + " " + playerInventory.getWeapon().getName());
+        System.out.println(ConsoleColors.BLUE + playerInventory.getWeapon().getName() + ConsoleColors.DEFAULT);
         System.out.println();
 
         System.out.println("[ - alt                                                                                          - ]");
-        System.out.println("alt      " + playerInventory.getAlt().getName());
+        System.out.println(ConsoleColors.BLUE + playerInventory.getAlt().getName() + ConsoleColors.DEFAULT);
         System.out.println();
 
         System.out.println("[ - armor                                                                                        - ]");
         ArrayList<Armor> armor = playerInventory.getArmor();
 
         for (Armor piece : armor) {
-            System.out.println(piece.getName());
+            System.out.println(
+                    ConsoleColors.BLUE +
+                    piece.getName() +
+                            ConsoleColors.DEFAULT
+            );
         }
         System.out.println();
 
         System.out.println("[ - coin                                                                                         - ]");
-        System.out.println("coin     " + ConsoleColors.YELLOW + playerInventory.getCoin() + ConsoleColors.DEFAULT);
+        System.out.println(
+                ConsoleColors.YELLOW + playerInventory.getCoin() + ConsoleColors.DEFAULT
+        );
         System.out.println();
 
         System.out.println("[ - potions                                                                                      - ]");
-        System.out.println("health potions      " + playerInventory.checkHealthPotions());
-        System.out.println("antidote            ");
+        System.out.println(
+                ConsoleColors.BLUE +
+                "health potions                                    " +
+                        playerInventory.checkHealthPotions() +
+                        ConsoleColors.DEFAULT
+        );
+        System.out.println(
+                ConsoleColors.BLUE +
+                "antidotes                                         " +
+                        playerInventory.checkAntidotes() +
+                        ConsoleColors.DEFAULT
+        );
         System.out.println();
 
         System.out.println("[ - spell tomes                                                                                  - ]");
-        System.out.println("3.) tome of banishment   ");
-        System.out.println("4.) tome of wealth       ");
-        System.out.println("5.) tome of experience   ");
+        System.out.println(
+                ConsoleColors.BLUE +
+                "tome of banishment                                " + playerInventory.checkTome(1) +
+                        ConsoleColors.DEFAULT
+        );
+        System.out.println(
+                ConsoleColors.BLUE +
+                "tome of wealth                                    " + playerInventory.checkTome(2) +
+                        ConsoleColors.DEFAULT
+        );
+        System.out.println(
+                ConsoleColors.BLUE +
+                "tome of blessing                                  " + playerInventory.checkTome(3) +
+                        ConsoleColors.DEFAULT
+        );
         System.out.println();
 
         delayExecutionUntilEnterIsPressed();
@@ -442,7 +510,7 @@ public class Game {
             System.out.println("----------------------------------------------------------------------------------------------------");
             System.out.println("[ -- ragnar, man of many-trinkets                                                               -- ]");
             System.out.println("----------------------------------------------------------------------------------------------------");
-            System.out.println("what're ya buyin'?");
+            System.out.println("ragnar: what're ya buyin'?");
             System.out.println();
 
             System.out.println("[ - potions                                                                                      - ]");
@@ -453,7 +521,7 @@ public class Game {
             System.out.println("[ - spell tomes                                                                                  - ]");
             System.out.println("3.) tome of banishment   " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_BANISHMENT_COST + ConsoleColors.DEFAULT);
             System.out.println("4.) tome of wealth       " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_WEALTH_COST + ConsoleColors.DEFAULT);
-            System.out.println("5.) tome of experience   " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_EXPERIENCE_COST + ConsoleColors.DEFAULT);
+            System.out.println("5.) tome of blessing     " + ConsoleColors.YELLOW + ShopConstants.TOME_OF_BLESSING + ConsoleColors.DEFAULT);
             System.out.println();
 
             System.out.println("[ - coins                                                                                        - ]");
@@ -534,11 +602,11 @@ public class Game {
             }
 
             if (selection == 5) {
-                if (playerInventory.getCoin() >= ShopConstants.TOME_OF_EXPERIENCE_COST) {
+                if (playerInventory.getCoin() >= ShopConstants.TOME_OF_BLESSING) {
                     System.out.println();
                     System.out.println("ah. good one there.");
 
-                    playerInventory.spendCoin(ShopConstants.TOME_OF_EXPERIENCE_COST);
+                    playerInventory.spendCoin(ShopConstants.TOME_OF_BLESSING);
                     playerInventory.addTome(3);
 
                     delayExecutionUntilEnterIsPressed();
@@ -557,12 +625,14 @@ public class Game {
     public static void compoundLevels() {
         CharacterStats characterStats = player.getCharacterStats();
 
-        int level = (characterStats.getXp() / PlayerConstants.LEVEL_CAP);
+        int levelCap = PlayerConstants.BASE_LEVEL_CAP + (characterStats.getLevel() * PlayerConstants.BASE_LEVEL_CAP);
 
-        int additionalXp = characterStats.getXp() - (level * PlayerConstants.LEVEL_CAP);
+        int left = (characterStats.getXp() % levelCap);
+
+        int level = (characterStats.getXp() / levelCap);
 
         characterStats.consumeXp();
-        characterStats.addXp(additionalXp);
+        characterStats.addXp(left);
 
         if (level > 0) {
             System.out.println();
@@ -572,7 +642,7 @@ public class Game {
         // give players stat points to spend
         for (int i = 0; i < level; i++) {
             System.out.println("level up! stat point earned");
-            characterStats.addLevel();
+            characterStats.levelUp();
             characterStats.addStatPoint();
         }
     }

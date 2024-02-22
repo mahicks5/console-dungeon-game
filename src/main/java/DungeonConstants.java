@@ -1,6 +1,7 @@
 public interface DungeonConstants {
     double DEFAULT_CRITICAL_CHANCE = (1.0 / 50.0);
     double DEFAULT_MISS_CHANCE = (1.0 / 100.0);
+    double DEFAULT_STATUS_CHANCE = (1.0 / 100.0);
     double DEFAULT_BONUS_CHEST_CHANCE = (3.0 / 10.0);
     int DEFAULT_XP_REWARD = 10;
     int DEPTH_XP_BONUS = 7;

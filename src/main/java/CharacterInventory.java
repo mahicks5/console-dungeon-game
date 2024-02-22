@@ -13,7 +13,7 @@ public class CharacterInventory {
     private int antidotes;
     private int tomeOfBanishment = 0;
     private int tomeOfWealth = 0;
-    private int tomeOfExperience = 0;
+    private int tomeOfBlessing = 0;
 
     public int checkHealthPotions() {
         return this.healthPotions;
@@ -37,7 +37,7 @@ public class CharacterInventory {
         this.antidotes += 1;
     }
 
-    public void useAntidotesPotion() {
+    public void useAntidotePotion() {
         if (this.antidotes > 0) {
             this.antidotes -= 1;
         }
@@ -49,7 +49,7 @@ public class CharacterInventory {
         } else if (choice == 2) {
             return this.tomeOfWealth;
         } else if (choice == 3) {
-            return this.tomeOfExperience;
+            return this.tomeOfBlessing;
         }
 
         return 0;
@@ -61,7 +61,7 @@ public class CharacterInventory {
         } else if (choice == 2) {
             this.tomeOfWealth++;
         } else if (choice == 3) {
-            this.tomeOfExperience++;
+            this.tomeOfBlessing++;
         }
     }
 
@@ -70,8 +70,8 @@ public class CharacterInventory {
             this.tomeOfBanishment--;
         } else if ((choice == 2) && (this.tomeOfWealth > 0)) {
             this.tomeOfWealth--;
-        } else if ((choice == 3) && (this.tomeOfExperience > 0)) {
-            this.tomeOfExperience--;
+        } else if ((choice == 3) && (this.tomeOfBlessing > 0)) {
+            this.tomeOfBlessing--;
         }
     }
 

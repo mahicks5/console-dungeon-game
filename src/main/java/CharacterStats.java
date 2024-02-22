@@ -29,7 +29,7 @@ public class CharacterStats {
         return level;
     }
 
-    public void addLevel() {
+    public void levelUp() {
         this.level++;
     }
 

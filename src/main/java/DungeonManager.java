@@ -1,3 +1,7 @@
+/**
+ * DungeonManager.java
+ * holds all the logic for anything in the dungeon. holds logic and display classes */
+
 import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,6 +11,7 @@ public class DungeonManager {
     private static String active_event = "coin bonus";
     private static boolean battle_active = false;
     private static boolean player_moves_first;
+    private static boolean tomeOfWealthActive;
     private static int tick = 1;
     private static int depth = 1;
     private static int turn = 1;
@@ -14,16 +19,16 @@ public class DungeonManager {
     public static void tick() {
         if (tick == 1) {
             tick = 2;
-            active_event = Events.event2;
+            active_event = EventNames.event2;
         } else if (tick == 2) {
             tick = 3;
-            active_event = Events.event3;
+            active_event = EventNames.event3;
         } else if (tick == 3) {
             tick = 4;
-            active_event = Events.event4;
+            active_event = EventNames.event4;
         } else if (tick == 4) {
             tick = 1;
-            active_event = Events.event1;
+            active_event = EventNames.event1;
         }
     }
 
@@ -77,12 +82,21 @@ public class DungeonManager {
     }
 
     public static void displayDungeonInfo() {
+        System.out.println(depth + " layer(s) below the surface");
+        System.out.println(
+                "active event: " +
+                        ConsoleColors.YELLOW +
+                        active_event +
+                        ConsoleColors.DEFAULT
+        );
         System.out.println();
-        System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println(ConsoleColors.RED + depth + ConsoleColors.DEFAULT + " layers below the surface");
-        System.out.println("active event: " + ConsoleColors.YELLOW + active_event + ConsoleColors.DEFAULT);
-        System.out.println();
-        System.out.println(ConsoleColors.RED + enemy.getName() + " has appeared" + ConsoleColors.DEFAULT);
+//        System.out.println(
+//                ConsoleColors.RED +
+//                        enemy.getName() +
+//                        " has appeared" +
+//                        ConsoleColors.DEFAULT
+//        );
+//        System.out.println();
     }
 
     public static void generateLayer() {
@@ -142,13 +156,20 @@ public class DungeonManager {
 
     public static void initBattle() {
         System.out.println();
-        System.out.println();
 
         Random random = new Random();
 
         int playerSpeed = Game.getPlayer().getCharacterStats().getSpeed();
 
         int enemySpeed = random.nextInt(playerSpeed + 1);
+
+        System.out.println(
+                ConsoleColors.RED +
+                        enemy.getName() +
+                        " has appeared" +
+                        ConsoleColors.DEFAULT
+        );
+        System.out.println();
 
         if (playerSpeed > enemySpeed) {
             player_moves_first = true;
@@ -161,19 +182,30 @@ public class DungeonManager {
         battle_active = true;
     }
 
-    public static void promptPlayerMove() {
+    public static void playerTurn() {
         Scanner userInput = new Scanner(System.in);
 
         CharacterStats characterStats = Game.getPlayer().getCharacterStats();
         CharacterInventory characterInventory = Game.getPlayer().getCharacterInventory();
 
-        int selection = 0; // default; do nothing with 0
+        int selection = 0;
 
-        boolean altReady;
-        boolean potions_enabled = false;
-        boolean flee_enabled = false;
-
-        altReady = characterInventory.getAlt().getCooldown() == 0;
+        boolean altReady            = (characterInventory.getAlt().getCooldown() == 0);
+        boolean healthPotionEnabled = (characterInventory.checkHealthPotions() > 0);
+        boolean antidoteEnabled     = (
+                (characterInventory.checkAntidotes() > 0) &&
+                        (Game.getPlayer().getCharacterStats().getStatus().equals(StatusEffects.POISONED))
+        );
+        boolean tomeOfBanishment    = (characterInventory.checkTome(1) > 0);
+        boolean tomeOfWealth        = (
+                (characterInventory.checkTome(2) > 0) &&
+                        (!tomeOfWealthActive)
+        );
+        boolean tomeOfBlessing      = (
+                (characterInventory.checkTome(3) > 0) &&
+                        (Game.getPlayer().getCharacterStats().getStatus().equals(StatusEffects.CURSED))
+        );
+        boolean fleeEnabled         = ((depth % 10) == 0);
 
         boolean invalidChoice = false;
 
@@ -187,34 +219,102 @@ public class DungeonManager {
 
             System.out.println(
                     "1.) use " +
-                    ConsoleColors.BLUE + characterInventory.getWeapon().getName() + ConsoleColors.DEFAULT
+                    ConsoleColors.BLUE +
+                            characterInventory.getWeapon().getName() +
+                            ConsoleColors.DEFAULT
             );
+
             if (altReady) {
                 System.out.println(
                         "2.) use " +
-                                ConsoleColors.BLUE + characterInventory.getAlt().getName() + ConsoleColors.DEFAULT
+                                ConsoleColors.BLUE +
+                                characterInventory.getAlt().getName() +
+                                ConsoleColors.DEFAULT
                 );
             }
 
-            if (characterInventory.checkHealthPotions() > 0) {
-                potions_enabled = true;
-
-                System.out.println("3.) health potion (" + characterInventory.checkHealthPotions() + " remaining)");
+            if (healthPotionEnabled) {
+                System.out.println(
+                        "3.) use " +
+                                ConsoleColors.BLUE +
+                                "health potion" +
+                                ConsoleColors.DEFAULT +
+                                " (" +
+                                ConsoleColors.BLUE +
+                                characterInventory.checkHealthPotions() +
+                                ConsoleColors.DEFAULT +
+                                " remaining)"
+                );
             }
 
-            if ((depth % 10) == 0) {
-                flee_enabled = true;
+            if (antidoteEnabled) {
+                System.out.println(
+                                "4.) use " +
+                                ConsoleColors.BLUE +
+                                "antidote" +
+                                ConsoleColors.DEFAULT +
+                                " (" +
+                                ConsoleColors.BLUE +
+                                characterInventory.checkAntidotes() +
+                                ConsoleColors.DEFAULT +
+                                " remaining)"
+                );
+            }
 
-                System.out.println("4.) flee");
+            if (tomeOfBanishment) {
+                System.out.println(
+                                "5.) use " +
+                                ConsoleColors.BLUE +
+                                "tome of banishment" +
+                                ConsoleColors.DEFAULT +
+                                " (" +
+                                ConsoleColors.BLUE +
+                                characterInventory.checkTome(1) +
+                                ConsoleColors.DEFAULT +
+                                " remaining)"
+                );
+            }
+
+            if (tomeOfWealth) {
+                System.out.println(
+                                "6.) use " +
+                                ConsoleColors.BLUE +
+                                "tome of wealth" +
+                                ConsoleColors.DEFAULT +
+                                " (" +
+                                ConsoleColors.BLUE +
+                                characterInventory.checkTome(2) +
+                                ConsoleColors.DEFAULT +
+                                " remaining)"
+                );
+            }
+
+
+            if (tomeOfBlessing) {
+                System.out.println(
+                                "7.) use " +
+                                ConsoleColors.BLUE +
+                                "tome of blessing" +
+                                ConsoleColors.DEFAULT +
+                                " (" +
+                                ConsoleColors.BLUE +
+                                characterInventory.checkTome(3) +
+                                ConsoleColors.DEFAULT +
+                                " remaining)"
+                );
+            }
+
+            if (fleeEnabled) {
+                System.out.println("8.) flee");
             }
 
             int choice = userInput.nextInt();
 
             if ((choice == 2) && (!altReady)) {
                 invalidChoice = true;
-            } else if ((choice == 3) && (!potions_enabled)) {
+            } else if ((choice == 3) && (!healthPotionEnabled)) {
                 invalidChoice = true;
-            } else if ((choice == 4) && (!flee_enabled)) {
+            } else if ((choice == 4) && (!fleeEnabled)) {
                 invalidChoice = true;
             } else {
                 selection = choice;
@@ -229,7 +329,7 @@ public class DungeonManager {
             double damage = Game.getPlayer().getCharacterInventory().getWeapon().getAttack();
 
             // chance to hit critical. includes event
-            if (active_event.equals(Events.event4)) {
+            if (active_event.equals(EventNames.event4)) {
                 boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
 
                 if (chance) {
@@ -250,7 +350,7 @@ public class DungeonManager {
             }
 
             // chance to miss. includes event
-            if (active_event.equals(Events.event3)) {
+            if (active_event.equals(EventNames.event3)) {
                 boolean chance = rng.roll(DungeonConstants.DEFAULT_MISS_CHANCE * EventConstants.INCREASED_MISS_CHANCE);
 
                 if (chance) {
@@ -304,7 +404,7 @@ public class DungeonManager {
             double damage = Game.getPlayer().getCharacterInventory().getAlt().getAttack();
 
             // chance to hit critical. includes event
-            if (active_event.equals(Events.event4)) {
+            if (active_event.equals(EventNames.event4)) {
                 boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
 
                 if (chance) {
@@ -325,7 +425,7 @@ public class DungeonManager {
             }
 
             // chance to miss. includes event
-            if (active_event.equals(Events.event3)) {
+            if (active_event.equals(EventNames.event3)) {
                 boolean chance = rng.roll(DungeonConstants.DEFAULT_MISS_CHANCE * EventConstants.INCREASED_MISS_CHANCE);
 
                 if (chance) {
@@ -371,14 +471,80 @@ public class DungeonManager {
             System.out.println();
         }
 
-        if ((selection == 3) && (potions_enabled)) {
+        if ((selection == 3) && (healthPotionEnabled)) {
+            System.out.println();
+            System.out.println(
+                    ConsoleColors.CYAN +
+                            "you start to feel better..." +
+                            ConsoleColors.DEFAULT
+            );
+
             characterInventory.useHealthPotion();
             characterStats.heal();
         }
 
-        if ((selection == 4) && (flee_enabled)) {
+        if ((selection == 4) && (antidoteEnabled) && (Game.getPlayer().getCharacterStats().getStatus().equals(StatusEffects.POISONED))) {
+            System.out.println();
+            System.out.println(
+                    ConsoleColors.CYAN +
+                            "the poison has faded away..." +
+                    ConsoleColors.DEFAULT
+            );
+
+            characterInventory.useAntidotePotion();
+            characterStats.setStatus(StatusEffects.HEALTHY);
+        }
+
+        if ((selection == 5) && (tomeOfBanishment)) {
+            System.out.println();
+            System.out.println(
+                    ConsoleColors.CYAN +
+                            "a rumble is felt as " +
+                            ConsoleColors.RED +
+                            enemy.getName() +
+                            ConsoleColors.CYAN +
+                            " disappears in the blink of an eye..." +
+                            ConsoleColors.DEFAULT
+            );
+
+            characterInventory.useTome(1);
+            enemy.takeDamage(999999999.0);
+        }
+
+        if ((selection == 6) && (tomeOfWealth)) {
+            System.out.println(
+                    ConsoleColors.CYAN +
+                            "you start to feel very lucky..." +
+                            ConsoleColors.DEFAULT
+            );
+
+            characterInventory.useTome(2);
+            tomeOfWealthActive = true;
+        }
+
+        if ((selection == 7) && (tomeOfBlessing) && (Game.getPlayer().getCharacterStats().getStatus().equals(StatusEffects.CURSED))) {
+            System.out.println(
+                    ConsoleColors.CYAN +
+                            "a burden lifts off your shoulders..." +
+                            ConsoleColors.DEFAULT
+            );
+
+            characterInventory.useTome(3);
+            characterStats.setStatus(StatusEffects.HEALTHY);
+        }
+
+        if ((selection == 8) && (fleeEnabled)) {
             battle_active = false;
             turn = 1;
+
+            System.out.println(
+                    ConsoleColors.CYAN +
+                            "you run as fast as you can..." +
+                            ConsoleColors.DEFAULT
+            );
+
+            System.out.println();
+            delayExecutionUntilEnterIsPressed();
 
             Game.gameloop(new Scanner(System.in));
         }
@@ -400,7 +566,7 @@ public class DungeonManager {
         double damage = enemy.getAttack();
 
         // chance to hit critical. includes event
-        if (active_event.equals(Events.event4)) {
+        if (active_event.equals(EventNames.event4)) {
             boolean chance = rng.roll(DungeonConstants.DEFAULT_CRITICAL_CHANCE * EventConstants.INCREASED_CRITICAL_CHANCE);
 
             if (chance) {
@@ -421,7 +587,7 @@ public class DungeonManager {
         }
 
         // chance to miss. includes event
-        if (active_event.equals(Events.event3)) {
+        if (active_event.equals(EventNames.event3)) {
             boolean chance = rng.roll(DungeonConstants.DEFAULT_MISS_CHANCE * EventConstants.INCREASED_MISS_CHANCE);
 
             if (chance) {
@@ -456,11 +622,23 @@ public class DungeonManager {
                     "you take " + ConsoleColors.PURPLE + damage + ConsoleColors.DEFAULT +
                             " of damage"
             );
+
+            Game.getPlayer().getCharacterStats().takeDamage(damage);
+
+            boolean roll = rng.roll(DungeonConstants.DEFAULT_STATUS_CHANCE);
+
+            if (roll) {
+                roll = rng.roll(1.0 / 2.0);
+
+                if (roll) {
+                    Game.getPlayer().getCharacterStats().setStatus(StatusEffects.POISONED);
+                } else {
+                    Game.getPlayer().getCharacterStats().setStatus(StatusEffects.CURSED);
+                }
+            }
         }
 
         // end critical and miss modifiers
-
-        Game.getPlayer().getCharacterStats().takeDamage(damage);
 
         System.out.println();
         System.out.println();
@@ -468,17 +646,34 @@ public class DungeonManager {
 
     public static void displayHealthStats() {
         System.out.println(
-                ConsoleColors.RED + enemy.getName() + ConsoleColors.DEFAULT +
+                ConsoleColors.GREEN +
+                        Game.getPlayer().getCharacterInfo().getName() +
+                        ConsoleColors.DEFAULT +
                         " health: " +
-                        ConsoleColors.RED + enemy.getHealth() + ConsoleColors.DEFAULT
+                        ConsoleColors.GREEN +
+                        Game.getPlayer().getCharacterStats().getHealth() +
+                        ConsoleColors.DEFAULT
         );
 
         System.out.println(
-                ConsoleColors.GREEN + Game.getPlayer().getCharacterInfo().getName() + ConsoleColors.DEFAULT +
+                ConsoleColors.RED +
+                        enemy.getName() +
+                        ConsoleColors.DEFAULT +
                         " health: " +
-                        ConsoleColors.GREEN + Game.getPlayer().getCharacterStats().getHealth() + ConsoleColors.DEFAULT
+                        ConsoleColors.RED +
+                        enemy.getHealth() +
+                        ConsoleColors.DEFAULT
         );
-        System.out.println();
+
+        if (!Game.getPlayer().getCharacterStats().getStatus().equals("healthy")) {
+            System.out.println();
+            System.out.println(
+                    ConsoleColors.RED +
+                    Game.getPlayer().getCharacterStats().getStatus() +
+                            ConsoleColors.DEFAULT
+            );
+        }
+
         System.out.println();
     }
 
@@ -489,13 +684,19 @@ public class DungeonManager {
         int coin = DungeonConstants.DEFAULT_COIN_REWARD + (depth * DungeonConstants.DEPTH_COIN_BONUS);
         int xp = DungeonConstants.DEFAULT_XP_REWARD + (depth * DungeonConstants.DEPTH_XP_BONUS);
 
-        if (active_event.equals(Events.event1)) {
+        if (active_event.equals(EventNames.event1)) {
             coin *= EventConstants.BONUS_COINS;
         }
 
-        if (active_event.equals(Events.event2)) {
+        if (active_event.equals(EventNames.event2)) {
             xp *= EventConstants.BONUS_XP;
         }
+
+        if (tomeOfWealthActive) {
+            coin *= TomeConstants.TOME_OF_WEALTH_BONUS;
+        }
+
+        tomeOfWealthActive = false;
 
         System.out.println();
         System.out.println(
@@ -591,7 +792,7 @@ public class DungeonManager {
         int coin = DungeonConstants.DEFAULT_CHEST_REWARD + (depth * DungeonConstants.DEPTH_COIN_BONUS);
         int potions = (new Random()).nextInt(DungeonConstants.MAX_CHEST_POTIONS + 1);
 
-        if (active_event.equals(Events.event1)) {
+        if (active_event.equals(EventNames.event1)) {
             coin *= EventConstants.BONUS_COINS;
         }
 
@@ -604,10 +805,13 @@ public class DungeonManager {
         System.out.println();
         System.out.println(
                 "you found " +
-                        ConsoleColors.YELLOW + coin + ConsoleColors.DEFAULT +
+                        ConsoleColors.YELLOW +
+                        coin +
+                        ConsoleColors.DEFAULT +
                         " coin and " +
-                        ConsoleColors.YELLOW + potions + ConsoleColors.DEFAULT +
-                        " potions"
+                        ConsoleColors.BLUE +
+                        potions + " potions" +
+                        ConsoleColors.DEFAULT
         );
 
         delayExecutionUntilEnterIsPressed();
@@ -625,22 +829,45 @@ public class DungeonManager {
         }
     }
 
+    public static void curseCheck() {
+        if (Game.getPlayer().getCharacterStats().getStatus().equals(StatusEffects.POISONED)) {
+            Game.getPlayer().getCharacterStats().takeDamage(StatusConstants.POISON_DAMAGE);
+            System.out.println(ConsoleColors.PURPLE +
+                    "you took " + StatusConstants.POISON_DAMAGE + " of damage to poison" +
+                    ConsoleColors.DEFAULT
+            );
+            System.out.println();
+        }
+
+        if (Game.getPlayer().getCharacterStats().getStatus().equals(StatusEffects.CURSED)) {
+            Game.getPlayer().getCharacterInventory().spendCoin(StatusConstants.CURSE_COIN_LOSS);
+            System.out.println(ConsoleColors.PURPLE +
+                    "you lost " + StatusConstants.CURSE_COIN_LOSS + " coins to curse of loss" +
+                    ConsoleColors.DEFAULT
+            );
+            System.out.println();
+        }
+    }
+
     public static void battleLoop() {
         turn = 1;
 
         while (battle_active) {
+            displayDungeonInfo();
             displayHealthStats();
+            curseCheck();
 
             if ((player_moves_first) && (turn == 1)) {
-                // player moves
-                promptPlayerMove();
+                // player move
+                playerTurn();
             } else if ((!player_moves_first) && (turn == 1)) {
                 // computer turn
                 computerMove();
-
             } else if ((!player_moves_first) && (turn == 2)) {
-                promptPlayerMove();
+                // player move
+                playerTurn();
             } else if ((player_moves_first) && (turn == 2)) {
+                // computer turn
                 computerMove();
             }
 
@@ -671,7 +898,6 @@ public class DungeonManager {
 
     public static void dungeonLoop() {
         generateLayer();
-        displayDungeonInfo();
         initBattle();
         battleLoop();
     }

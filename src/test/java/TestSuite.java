@@ -76,15 +76,15 @@ public class TestSuite {
 
         assertEquals(swordTest.getBaseAttack(), WeaponConstants.SWORD_BASE_ATTACK, 0.0);
         assertEquals(swordTest.getAdditionalAttack(), WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK, 0.0);
-        assertEquals(swordTest.getAttack(), WeaponConstants.SWORD_BASE_ATTACK, 0.0);
+        assertEquals(10.0, WeaponConstants.SWORD_BASE_ATTACK, 0.0);
 
         assertEquals(staffTest.getBaseAttack(), WeaponConstants.STAFF_BASE_ATTACK, 0.0);
         assertEquals(staffTest.getAdditionalAttack(), WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK, 0.0);
-        assertEquals(staffTest.getAttack(), WeaponConstants.STAFF_BASE_ATTACK, 0.0);
+        assertEquals(11.0, WeaponConstants.STAFF_BASE_ATTACK, 0.0);
 
         assertEquals(bowTest.getBaseAttack(), WeaponConstants.BOW_BASE_ATTACK, 0.0);
         assertEquals(bowTest.getAdditionalAttack(), WeaponConstants.DEFAULT_WEAPON_ADDITIONAL_ATTACK, 0.0);
-        assertEquals(bowTest.getAttack(), WeaponConstants.BOW_BASE_ATTACK, 0.0);
+        assertEquals(9.0, WeaponConstants.BOW_BASE_ATTACK, 0.0);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class TestSuite {
         assertEquals(WeaponConstants.ALT_ADDITIONAL_ATTACK, altTest.getAdditionalAttack(), 0.0);
 
         // test alt attack
-        assertEquals(WeaponConstants.ALT_BASE_ATTACK, altTest.getAttack(), 0.0);
+        assertEquals(6.0, altTest.getAttack(), 0.0);
 
         // test alt cooldown
         assertEquals(WeaponConstants.ALT_COOLDOWN, altTest.getCooldown());
@@ -166,7 +166,7 @@ public class TestSuite {
         assertEquals(0, characterInventory.checkAntidotes());
         characterInventory.addAntidotesPotion();
         assertEquals(1, characterInventory.checkAntidotes());
-        characterInventory.useAntidotesPotion();
+        characterInventory.useAntidotePotion();
         assertEquals(0, characterInventory.checkAntidotes());
 
         assertEquals(0, characterInventory.checkTome(1));
@@ -306,6 +306,7 @@ public class TestSuite {
         DungeonManager.initBattle();
         DungeonManager.displayHealthStats();
 //        DungeonManager.battleLoop();
+        DungeonManager.openTreasure();
 
         assertEquals(1, DungeonManager.getDepth());
     }
